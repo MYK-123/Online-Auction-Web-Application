@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Forgot Password - Online Auction WebApplication </title>
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+{% include 'banner.html' %}
+
+<center>
+<div id="base">
+<div id="front">
+<h1> Recover Account - Online Auction WebApplication </h1><br />
+
+{% if username and secq and seca %}
+<form method="POST" action='/auth/recover/{{username}}/answer/pass'>
+{% elif username %}
+<form method="POST" action='/auth/recover/{{username}}/answer'>
+{% else %}
+<form method="POST">
+{% endif %}
+<table>
+<tr>
+<td>Username :</td>
+<td>
+{% if username %}
+<input type='text' name='username' id='username' value='{{username}}' required>
+{% else %}
+<input type='text' name='username' id='username' required>
+{% endif %}
+</td>
+</tr>
+
+{% if username %}
+<tr>
+<td>Security Question&nbsp:</td>
+<td>
+{% if secq %}
+<input type='text' name='secq' id='secq' value='{{secq}}' readonly>
+{% else %}
+<input type='text' name='secq' id='secq' readonly>
+{% endif %}
+</td>
+</tr>
+<tr>
+<td>Security Answer&nbsp:</td>
+<td>
+{% if seca %}
+<input type='password' name='seca' id='seca' value='{{seca}}' required>
+{% else %}
+<input type='password' name='seca' id='seca' required>
+{% endif %}
+</td>
+</tr>
+{% endif %}
+
+{% if username and secq and seca %}
+<tr>
+<td>New Password&nbsp:</td>
+<td><input type='password' name='newp' id='newp' required></td>
+</tr>
+<tr>
+<td>Confirm Password&nbsp:</td>
+<td><input type='password' name='confp' id='confp' required></td>
+</tr>
+{% endif %}
+
+<tr>
+<td colspan='2'><center>
+{% if msg %}
+<font color='red'>{{msg}}</font><br />
+{% endif %}
+<input type="submit" value="    &nbsp&nbsp Submit    &nbsp&nbsp">
+</center></td>
+</tr>
+</table>
+</form>
+<br />
+<a href="/auth/register/"> Create New Account </a>
+</div>
+</div>
+</center>
+</body>
+</html>

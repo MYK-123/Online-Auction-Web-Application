@@ -1,0 +1,40 @@
+
+
+{% if name %}
+<center> Signed in as {{name}} <a href='/auth/logout'> Logout </a> </center>
+{% else %}
+<center><a href='/auth/login'> Sign in </a> Or <a href='/auth/register'> Sign up </a> </center>
+{% endif %}
+
+
+<p>
+<hr>
+<a href="/">Homepage</a><br>
+<hr>
+
+<a href="/auth/login/">Sign in</a><br>
+<a href="/auth/register/">Sign up</a><br>
+<a href="/auth/recover/">Recover</a><br>
+<a href="/auth/logout">Sign out</a><br>
+<hr>
+
+<a href="/dashboard/">Dashboard</a><br>
+<a href="/sell/">Sell</a><br>
+<hr>
+
+<a href="/requests/">Requests</a><br>
+<a href="/requests/approve/<int:req_id>/<int:user_id>/">Approve a request</a><br>
+<a href="/requests/approve/<int:req_id>/<int:user_id>/">Reject a request</a><br>
+<hr>
+<a href="/requests/status/">All Request status made by seller</a><br>
+<a href="/requests/<int:req_id>/status/">Particular Request status</a><br>
+<hr>
+Admin Controls<br>
+<a href="/admin/add/<int:admin_id>/">Add Admin</a><br>
+<a href="/manager/add/<int:admin_id>/">Add Manager</a><br>
+<a href="/admin/remove/<int:admin_id>/">Remove Admin</a><br>
+<a href="/manager/remove/<int:admin_id>/">Remove Manager</a><br>
+<hr>
+<a href="/messages/">Messages</a><br>
+<hr>
+</p>

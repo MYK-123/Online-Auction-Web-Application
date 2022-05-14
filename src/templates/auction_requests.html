@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Auction Requests - Online Auction WebApplication </title>
+<link rel='stylesheet' href='/static/css/style.css' />
+</head>
+<body>
+
+{% include 'banner.html' %}
+
+<center>
+
+<div id="base">
+<div id="front">
+<h1> Auction Requests - Online Auction WebApplication </h1>
+
+{% if items %}
+<form>
+<table id='table'>
+
+<tr id='t1'>
+<td>&nbsp<b>Request ID</b>&nbsp</td>
+<td>&nbsp<b>Seller_id</b>&nbsp</td>
+<td>&nbsp<b>Created On</b>&nbsp</td>
+<td>&nbsp<b>Title</b>&nbsp</td>
+<td>&nbsp<b>Description</b>&nbsp</td>
+<td>&nbsp<b>Quantity Available</b>&nbsp</td> 
+<td>&nbsp<b>Initial price</b>&nbsp</td>
+<td>&nbsp<b>Approved Status</b>&nbsp</td>
+<td>&nbsp<b>Approve Request</b>&nbsp</td>
+</tr>
+
+{% for item in items %}
+	{% if item %}
+	<tr id='{{rowname}}'>
+	{% for sub in item %}
+		<td>{{sub}}</td>
+	{% endfor %}
+	{% endif %}
+	</tr>
+{% endfor %}
+
+</table>
+</form>
+{% endif %}
+
+
+</div>
+</div>
+</center>
+
+{% if debugmsg %}
+
+{{debugmsg}}
+
+{% endif%}
+
+['id', 'seller_id', 'created', 'title', 'description', 'quantity', 'min_price', 'approved']
+
+
+</body>
+</html>

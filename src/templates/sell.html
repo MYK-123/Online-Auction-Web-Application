@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Dashboard - Sell - Online Auction WebApplication </title>
+<link rel="stylesheet" href="/static/css/style.css" />
+<script src='/static/js/sell.js'></script>
+</head>
+<body>
+
+{% include 'banner.html' %}
+
+<center>
+<div id="base">
+	<div id="front">
+		<h1> Place an Auction Request </h1> <br />
+		<form action='/sell/' method='POST' enctype='multipart/form-data'>
+		<table border='0'>
+<tr>
+<td colspan=4>Product Title</td>
+</tr><tr>
+<td colspan=4><input type='text' size=50 id='title' name='title' required></td>
+</tr>
+<tr>
+<td colspan=4>Product Description</td>
+</tr><tr>
+<td colspan=4><textarea type='textarea' rows=8 cols=67 id='desc' name='desc' required resizable='false'></textarea></td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>
+<input type='button' rows=3 value='-'  id='desc' name='desc' onclick=less()>
+<input type='text' size=5  id='qty' name='qty' value='1' required>
+<input type='button' rows=3 value='+'  id='desc' name='desc' onclick=more()>
+</td>
+<td>price</td>
+<td>
+<input type='number' size=10  id='price' name='price' value='0' required>
+</td>
+</tr>
+<tr>
+<td>Attachments</td>
+<td colspan=3>
+<input type=file multiple id='attachments' name='attachments'>
+</td>
+</tr>
+<tr>
+<td colspan=4>
+<input type='submit' value="Place Order" >
+</td>
+</tr>
+
+		</table>
+		</form>
+	</div>
+</div>
+</center>
+</body>
+</html>

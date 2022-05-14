@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Messages - Online Auction WebApplication </title>
+<link rel='stylesheet' href='/static/css/style.css' />
+</head>
+<body>
+
+{% include 'banner.html' %}
+
+
+
+<center>
+
+<div id="base">
+<div id="front">
+<h1> Messages - Online Auction WebApplication </h1>
+
+{% if msglist %}
+<table>
+
+<table>
+{% endif %}
+
+</div>
+</div>
+</center>
+
+{% if debugmsg %}
+
+{{debugmsg}}
+
+{% endif%}
+
+id, seller_id, request_id, created, approved_at, approved_by, title, description , quantity, min_price
+
+</body>
+</html>

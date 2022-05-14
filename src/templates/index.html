@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Home - Online Auction WebApplication </title>
+<link rel='stylesheet' href='/static/css/style.css' />
+</head>
+<body>
+
+{% include 'banner.html' %}
+
+<center>
+
+<div id="base">
+<div id="front">
+<h1> Home - Online Auction WebApplication </h1>
+
+{% include 'auction_table.html' %}
+
+</div>
+</div>
+</center>
+
+{% if debugmsg %}
+
+{{debugmsg}}
+
+{% endif%}
+
+</body>
+</html>
