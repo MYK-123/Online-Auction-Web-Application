@@ -1,3 +1,4 @@
+@echo off
 
 set FLASK_APP=src/app
 set FLASK_DEBUG=True
