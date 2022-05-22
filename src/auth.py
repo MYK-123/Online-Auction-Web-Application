@@ -21,13 +21,14 @@ from src.connectivity import fetch_security_question
 from src.connectivity import validate_security_answer
 from src.connectivity import update_password
 from src.connectivity import get_role
+from src.connectivity import getuser
 
 bp = Blueprint('auth', __name__)
 
 def login_required(view):
 	@functools.wraps(view)
 	def wrapped_view(**kargs):
-		if session.get('user_id') is None:
+		if session.get('username') is None:
 			return redirect(url_for('auth.login'))
 		return view(**kargs)
 	return wrapped_view
@@ -35,7 +36,7 @@ def login_required(view):
 
 @bp.route('/auth/register/', methods=["POST", "GET"])
 def register():
-	if session.get('user_id'):
+	if session.get('username'):
 		return redirect(url_for('dashboard.dashboard'))
 	info = ''
 	if request.method == "POST":
@@ -50,10 +51,8 @@ def register():
 		if password == confpass:
 			r = create_account(fn, ln, un, pan, password, secq, seca)
 			if r:
-				session['user_id'] = get_user_id(un)
-				session['role'] = get_role(session.get('user_id'))
-				g.username = un
-				print(f"THIS IS USERNAME {g.username}")
+				g.user = getuser(un)
+				session['username'] = g.user.get_username()
 				return redirect(url_for('dashboard.dashboard'))
 			else:
 				info += 'cannot create account due to some error occured'
@@ -64,7 +63,7 @@ def register():
 
 @bp.route('/auth/login/', methods=["GET", "POST"])
 def login():
-	if session.get('user_id'):
+	if session.get('username'):
 		return redirect(url_for('dashboard.dashboard'))
 	if request.method == "POST":
 		return do_login(request.form['username'], request.form['password'])
@@ -72,8 +71,8 @@ def login():
 
 def do_login(username, password):
 	if check_password(username, password):
-		session['user_id'] = get_user_id(username)
-		session['role'] = get_role(session.get('user_id'))
+		g.user = getuser(username)
+		session['username'] = g.user.get_username()
 		return redirect(url_for('dashboard.dashboard'))
 	return render_template('login.html', recover='recover')
 

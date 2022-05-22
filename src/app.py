@@ -6,7 +6,10 @@ from src.constants import UPLOAD_FOLDER
 from src.constants import DATABASE_FILE
 from src.constants import DATABASE_SCHEMA_FILE
 
+from src.connectivity import getuser
+
 from flask import Flask
+from flask import g
 from flask import render_template
 from flask import make_response
 from flask import request
@@ -19,8 +22,15 @@ from jinja2 import Markup
 #import secrets
 
 import src.auth as auth
+import src.auctions as auctions
 import src.dashboard as dashboard
 import src.internals as internals
+import src.messages as messages
+import src.bot as bot
+import src.participate as participate
+import src.payments as payments
+
+
 
 def create_app(test_config=None):
 	app = Flask(__name__, instance_relative_config=True)
@@ -43,14 +53,24 @@ def create_app(test_config=None):
 	#app.secret_key=secrets.token_hex()
 	
 	app.register_blueprint(auth.bp)
+	app.register_blueprint(auctions.bp)
 	app.register_blueprint(dashboard.bp)
 	app.register_blueprint(internals.bp)
+	app.register_blueprint(messages.bp)
+	app.register_blueprint(participate.bp)
+	app.register_blueprint(bot.bp)
+	app.register_blueprint(payments.bp)
 	
+	@app.before_request
+	def before_each_request():
+		g.user = getuser(session.get('username'))
+	
+			
 	@app.route('/')
 	@app.route('/index')
 	@app.route('/home')
 	def home():
-		if session.get('user_id'):
+		if g.user:
 			return redirect(url_for('dashboard.dashboard'))
 		return Markup.unescape(render_template('index.html', items=dashboard.get_auction_table(), rowname='t2'))
 	
