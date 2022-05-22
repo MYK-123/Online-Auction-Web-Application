@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Dashboard - Sell - Online Auction WebApplication </title>
+<title> Sell - Online Auction WebApplication </title>
 <link rel="stylesheet" href="/static/css/style.css" />
 <script src='/static/js/sell.js'></script>
 </head>
@@ -28,15 +28,17 @@
 <tr>
 <td>quantity</td>
 <td>
-<input type='button' rows=3 value='-'  id='desc' name='desc' onclick=less()>
+<input type='button' rows=3 value='-'  id='minus' name='minus' onclick=less()>
 <input type='text' size=5  id='qty' name='qty' value='1' required>
-<input type='button' rows=3 value='+'  id='desc' name='desc' onclick=more()>
+<input type='button' rows=3 value='+'  id='plus' name='plus' onclick=more()>
 </td>
 <td>price</td>
 <td>
 <input type='number' size=10  id='price' name='price' value='0' required>
 </td>
 </tr>
+
+
 <tr>
 <td>Attachments</td>
 <td colspan=3>

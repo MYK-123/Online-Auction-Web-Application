@@ -23,11 +23,17 @@
 {% for item in items %}
 	{% if item %}
 	<tr id='{{rowname}}'>
-	{% for sub in item %}
-		<td>{{sub}}</td>
-	{% endfor %}
-	{% endif %}
+	<td>{{item.id}}</td>
+	<td>{{item.title}}</td>
+	<td>{{item.description}}</td>
+	<td>{{item.quantity}}</td> 
+	<td>{{item.min_price}}</td>
+	<td>
+	<button type='submit' formmethod='post' formaction='/participate/{{item.id}}/' >Participate</button>
+	</td>
+	
 	</tr>
+	{% endif %}
 {% endfor %}
 
 </table>

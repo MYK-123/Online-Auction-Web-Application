@@ -28,15 +28,30 @@
 <td>&nbsp<b>Initial price</b>&nbsp</td>
 <td>&nbsp<b>Approved Status</b>&nbsp</td>
 <td>&nbsp<b>Approve Request</b>&nbsp</td>
+
 </tr>
 
 {% for item in items %}
-	{% if item %}
 	<tr id='{{rowname}}'>
-	{% for sub in item %}
-		<td>{{sub}}</td>
-	{% endfor %}
-	{% endif %}
+		<td>{{item.id}}</td>
+		<td>{{item.seller_id}}</td>
+		<td>{{item.created}}</td>
+		<td>{{item.title}}</td>
+		<td>{{item.description}}</td>
+		<td>{{item.quantity}}</td>
+		<td>{{item.min_price}}</td>
+		<td>{{item.approved}}</td>
+		{% if staff %}
+
+
+
+<td>
+<button type='submit' formmethod='post' formaction='/requests/reject/{{item.id}}/{{uid}}/'>Reject Request</button>
+<button type='submit' formmethod='post' formaction='/requests/approve/{{item.id}}/{{uid}}/'>Approve Request</button>
+</td>
+		{% else %}
+<td>{{item.response_by}}</td>
+		{% endif %}
 	</tr>
 {% endfor %}
 

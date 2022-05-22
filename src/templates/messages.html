@@ -17,7 +17,18 @@
 <h1> Messages - Online Auction WebApplication </h1>
 
 {% if msglist %}
-<table>
+<table border = 1>
+	{% for item in msglist %}
+<tr id='t1'>
+	<td>
+	Subject: <b>{{item.msg_subject}}</b><br>
+	at <i>{{item.created}}</i><br>
+	From: {{item.msg_from}}<br>
+	To: {{item.msg_to}}<br><br>
+	{{item.msg_data}}<br><br>
+	</td>
+</tr>
+	{% endfor %}
 
 <table>
 {% endif %}
