@@ -7,5 +7,5 @@ def test_config():
 
 def test_home(client):
 	response = client.get('/home')
-	assert b'THIS is HEADING 1' in response.data
+	assert b'Home' in response.data
 

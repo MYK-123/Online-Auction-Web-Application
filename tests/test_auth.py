@@ -36,7 +36,7 @@ def test_login(client, auth):
 	
 	with client:
 		client.get('/')
-		assert int(session.get('user_id')) >= 0
+		assert session.get('username') != None
 
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
