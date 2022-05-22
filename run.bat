@@ -9,5 +9,6 @@ set FLASK_RUN_PORT=80
 
 python -m flask init_db
 
-python3 -m flask run
+python -m flask run
+
 
