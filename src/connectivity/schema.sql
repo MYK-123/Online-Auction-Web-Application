@@ -35,8 +35,10 @@ CREATE TABLE IF NOT EXISTS auction_list(
 	description TEXT,
 	quantity INTEGER NOT NULL DEFAULT 1,
 	min_price FLOAT NOT NULL,
-	auction_datetime TIMESTAMP,
+	start_datetime TIMESTAMP,
+	end_datetime TIMESTAMP,
 	finalized INTEGER NOT NULL DEFAULT 0 CHECK(finalized == 0 OR finalized == 1),
+	status INTEGER DEFAULT 0 CHECK(status == 0 OR status == 1 OR status == -1 OR status == -2),
 	
 	FOREIGN KEY("request_id") REFERENCES "auction_requests"("id"),
 	FOREIGN KEY("approved_by") REFERENCES "user"("id"),
@@ -47,6 +49,7 @@ CREATE TABLE IF NOT EXISTS msg(
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	msg_from INTEGER NOT NULL,
 	msg_to INTEGER NOT NULL,
+	msg_subject TEXT,
 	msg_data TEXT,
 	created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

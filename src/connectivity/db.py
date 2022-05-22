@@ -6,6 +6,7 @@ import hashlib
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
+from src.connectivity.userclass import UserClass
 
 from src.constants import AUCTION_REQUESTS_LIST_NOT_APPREVED
 from src.constants import AUCTION_REQUESTS_LIST_BOTH
@@ -177,7 +178,9 @@ def reject_an_auction_request(request_id, rejected_by_id):
 	dbase = get_db()
 	try:
 		sql1 = f"UPDATE auction_requests SET approved = -1, response_by = {rejected_by_id} WHERE id = {request_id};"
+		sql2 = f"DELETE FROM auction_list WHERE request_id = {request_id};"
 		dbase.execute(sql1)
+		dbase.execute(sql2)
 	except sqlite3.IntegrityError:
 #		dbase.close()
 		return False
@@ -190,7 +193,7 @@ def reject_an_auction_request(request_id, rejected_by_id):
 		return True
 
 def get_auction_list():
-	sql = "SELECT id, title, description , quantity, min_price FROM auction_list;"
+	sql = "SELECT * FROM auction_list;"
 	return get_db().execute(sql).fetchall()
 
 
@@ -202,19 +205,45 @@ def get_requests_list_by_id(uid, mode=AUCTION_REQUESTS_LIST_NOT_APPREVED):
 	sql = f"SELECT * FROM auction_requests WHERE seller_id = '{uid}'  ORDER BY approved ASC,id DESC;" if mode == AUCTION_REQUESTS_LIST_BOTH else f"SELECT * FROM auction_requests WHERE seller_id = '{uid}',approved={mode} ORDER BY approved ASC,id DESC;"
 	return get_db().execute(sql).fetchall();
 
-def add_new_message(f, t, msg):
-	sql = f'INSERT INTO msg(msg_from, msg_to, msg_data) VALUES ({f}, {t}, {msg});'
+def add_new_message(f, t, sub, msg):
+	sql = f'INSERT INTO msg(msg_from, msg_to, msg_subject, msg_data) VALUES ({f}, {t}, {sub}, {msg});'
 	dbase = get_db()
-	try:
-		dbase.execute(sql)
-		dbase.commit()
-	except sqlite3.IntegrityError:
-		pass
+	dbase.execute(sql)
+	dbase.commit()
 
 
 def get_messages(key=MESSAGE_KEY_TO, value=-1):
-	sql = 'SELECT msg_from, msg_to, msg_data FROM msg WHERE {key} = {vaule} ORDER BY id DESC;'
+	sql = f"SELECT msg_subject, created, msg_from, msg_to, msg_data FROM msg WHERE {key} = {value} ORDER BY created DESC;"
 	return get_db().execute(sql).fetchall()
+
+
+def getuser(username):
+	dbase = get_db()
+	sql = f"SELECT fname, lname, username, id, role FROM user WHERE username ='{username}';"
+	r = dbase.execute(sql).fetchone()
+	if r == None:
+		return None
+#	return UserClass(r[0], r[1], r[2], r[3], r[4])
+	return UserClass(r['fname'], r['lname'], r['username'], r['id'], r['role'])
+
+def save_auction_details(auction_id, start_time, end_time):
+	dbase = get_db()
+	sql = f"UPDATE auction_list SET start_datetime = '{start_time}', end_datetime = '{end_time}', finalized = 1 WHERE id = {auction_id};"
+	dbase.execute(sql)
+	dbase.commit()
+
+def status_auction(auction_id):
+	dbase = get_db()
+	sql = f"SELECT status FROM auction_list WHERE id = {auction_id};"
+	return dbase.execute(sql).fetchone()
+
+def cancel_auction(uid, auction_id):
+	dbase = get_db()
+	sql = f"UPDATE auction_list SET status = -2 WHERE id = {auction_id} AND seller_id = {uid};"
+	dbase.execute(sql).fetchone()
+	dbase.commit()
+	return 1
+
 
 
 
