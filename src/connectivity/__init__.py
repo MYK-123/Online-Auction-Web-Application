@@ -113,7 +113,7 @@ def get_auctions_list():
 	return db.get_auction_list()
 
 def get_auction_details(auction_id):
-	return get_auction_details(auction_id)
+	return db.get_auction_details(auction_id)
 
 def get_auction_requests_unapproved():
 	return db.get_auction_request()

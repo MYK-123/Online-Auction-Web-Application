@@ -7,7 +7,7 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 from src.connectivity.userclass import UserClass
-from src.connectivity.userclass import BidInfo
+from src.connectivity.BidInfo import BidInfo
 
 from src.constants import AUCTION_REQUESTS_LIST_NOT_APPREVED
 from src.constants import AUCTION_REQUESTS_LIST_BOTH
