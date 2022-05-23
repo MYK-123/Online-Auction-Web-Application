@@ -64,10 +64,26 @@ CREATE TABLE IF NOT EXISTS bids (
 	fPay FLOAT,
 	
 	FOREIGN KEY("participant_id") REFERENCES "user"("id"),
-	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id"),
+	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id")
 );
 
 CREATE TABLE IF NOT EXISTS trans (
-	id INTEGER
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	trans_id TEXT,
+	order_id TEXT UNIQUE NOT NULL,
+	bid_id INTEGER NOT NULL,
+	auction_id INTEGER NOT NULL,
+	qty INTEGER,
+	ppi FLOAT,
+	amt FLOAT,
+	bidder_paid TEXT DEFAULT 'NOT PAID',
+	seller_order_id TEXT,
+	seller_trans_id TEXT,
+	seller_paid TEXT DEFAULT 'NOT PAID',
+	seller_Pay FLOAT,
+	
+	FOREIGN KEY("bid_id") REFERENCES "bids"("id"),
+	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id")
+	
 );
 

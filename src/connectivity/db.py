@@ -7,6 +7,7 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 from src.connectivity.userclass import UserClass
+from src.connectivity.userclass import BidInfo
 
 from src.constants import AUCTION_REQUESTS_LIST_NOT_APPREVED
 from src.constants import AUCTION_REQUESTS_LIST_BOTH
@@ -268,6 +269,43 @@ def make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment):
 	dbase.commit()
 	return r1.lastrowid
 
+def get_BidInfo(bid_id):
+	dbase = get_db()
+	sql = f"SELECT qty, ppi, amt, fpay FROM bids WHERE id = '{bid_id}' ;"
+	r = dbase.execute(sql).fetchone()
+	return BidInfo(bid_id, r[0], r[1], r[2], r[3])
+
+def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
+	dbase = get_db()
+	sql = f"INSERT INTO  trans (order_id, bid_id, auction_id, qty, ppi, amt, seller_Pay) VALUES ('{order_id}', '{bid_id}', '{auction_id}', '{qty}', '{ppi}', '{amt}', '{fPay}') ;"
+	r = dbase.execute(sql)
+	dbase.commit()
+	return r.lastrowid
 
 
+
+def update_payments(order_id, trans_id, payment_status):
+	if payment_status == 'SUCESS':
+		sql = f"UPDATE trans SET trans_id = '{trans_id}', bidder_paid = 'PAID' WHERE order_id = '{order_id}' ;"
+		dbase = get_db()
+		dbase.execute(sql)
+		dbase.commit()
+
+def get_payout_list():
+	dbase = get_db()
+	sql = f"SELECT * FROM trans WHERE seller_paid = 'NOT PAID' AND bidder_paid = 'PAID' ;"
+	return dbase.execute(sql).fetchall()
+
+def create_payout(tid, seller_oreder_id):
+	dbase = get_db()
+	sql = f"UPDATE trans SET seller_order_id = '{seller_order_id}' WHERE id = '{tid}' ;"
+	dbase.execute(sql)
+	dbase.commit()
+
+def update_payouts(tid, seller_trans_id, payment_status):
+	if payment_status == 'SUCESS':
+		dbase = get_db()
+		sql = f"UPDATE trans seller_trans_id = '{seller_trans_id}', seller_paid = 'PAID' WHERE id = '{tid}' ;"
+		dbase.execute(sql)
+		dbase.commit()
 

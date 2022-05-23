@@ -156,6 +156,9 @@ def get_requests_list_by_id_both(uid):
 def getuser(uname):
 	return db.getuser(uname)
 
+
+
+
 def save_auction_times(auction_id, start, end):
 	return db.save_auction_details(auction_id, start, end)
 
@@ -165,12 +168,39 @@ def status_auction(auction_id):
 def cancel_auction(uid, auction_id):
 	return db.cancel_auction(uid, auction_id)
 
+
+
 def cancel_bid(participant_id, auction_id):
 	return db.cancel_bid(participant_id, auction_id)
 
 def make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment):
 	return db.make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment)
 
+
+def getBidInfo(bid_id):
+	return db.get_BidInfo(bid_id)
+
+
+
+def create_payout(tid, seller_oreder_id):
+	return db.create_payout(tid, seller_oreder_id)
+
+def update_payouts(tid, seller_trans_id, payment_status):
+	return db.update_payouts(tid, seller_trans_id, payment_status)
+
+def get_payout_list():
+	return db.get_payout_list()
+
+
+
+def update_payments(order_id, trans_id, payment_status):
+	return db.update_payments(order_id, trans_id, payment_status)
+
+def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
+	return db.create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay)
+
+def generate_order_id(auction_id, bid_id):
+	return 'TO BE IMPLEMENTED'
 
 
 
