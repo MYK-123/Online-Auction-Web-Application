@@ -196,6 +196,10 @@ def get_auction_list():
 	sql = "SELECT * FROM auction_list;"
 	return get_db().execute(sql).fetchall()
 
+def get_auction_details(auction_id):
+	sql = "SELECT * FROM auction_list WHERE id = '{auction_id}';"
+	return get_db().execute(sql).fetchone()
+
 
 def get_auction_request(mode=AUCTION_REQUESTS_LIST_NOT_APPREVED):
 	sql = "SELECT * FROM auction_requests WHERE approved=0 OR approved=1 OR approved=-1  ORDER BY approved ASC,id DESC;" if mode == AUCTION_REQUESTS_LIST_BOTH else f"SELECT * FROM auction_requests WHERE approved={mode} ORDER BY approved ASC,id DESC;"
@@ -243,6 +247,26 @@ def cancel_auction(uid, auction_id):
 	dbase.execute(sql).fetchone()
 	dbase.commit()
 	return 1
+
+def cancel_bid(participant_id, auction_id):
+	sql = f"DELETE FROM bids WHERE participant_id = '{participant_id}' AND auction_id = '{auction_id}' ;"
+	dbase = get_db()
+	dbase.execute(sql)
+	dbase.commit()
+
+def make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment):
+	sql1 = f"SELECT id FROM bids WHERE pariticipant_id = '{bidder_id}' AND auction_id = '{auction_id}' ;"
+	dbase = get_db()
+	r = dbase.execute(sql1).fetchone()
+	if r is not None:
+		sql2 = f"UPDATE bids SET qty = '{qty}', ppi= '{ppi}', amt = '{amt}', fPay = '{finalPayment}' WHERE id = '{r[0]}' ;"
+		dbase.execute(sql2)
+		commit()
+		return r[0]
+	sql3 = f"INSERT INTO bids (participant_id, auction_id, qty, ppi, amt, fPay) VALUES ('{bidder_id}', '{auction_id}', '{qty}', '{ppi}', '{amt}', '{finalPayment}');"
+	r1 = dbase.execute(sql3)
+	dbase.commit()
+	return r1.lastrowid
 
 
 

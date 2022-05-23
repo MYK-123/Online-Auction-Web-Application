@@ -55,7 +55,16 @@ CREATE TABLE IF NOT EXISTS msg(
 );
 
 CREATE TABLE IF NOT EXISTS bids (
-	id INTEGER
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	participant_id INTEGER NOT NULL,
+	auction_id INTEGER NOT NULL,
+	qty INTEGER,
+	ppi FLOAT,
+	amt FLOAT,
+	fPay FLOAT,
+	
+	FOREIGN KEY("participant_id") REFERENCES "user"("id"),
+	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id"),
 );
 
 CREATE TABLE IF NOT EXISTS trans (

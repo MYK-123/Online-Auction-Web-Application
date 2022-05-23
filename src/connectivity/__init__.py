@@ -112,6 +112,9 @@ def create_auction_requst(seller_id, title, description, quantity, min_price):
 def get_auctions_list():
 	return db.get_auction_list()
 
+def get_auction_details(auction_id):
+	return get_auction_details(auction_id)
+
 def get_auction_requests_unapproved():
 	return db.get_auction_request()
 
@@ -161,4 +164,14 @@ def status_auction(auction_id):
 
 def cancel_auction(uid, auction_id):
 	return db.cancel_auction(uid, auction_id)
+
+def cancel_bid(participant_id, auction_id):
+	return db.cancel_bid(participant_id, auction_id)
+
+def make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment):
+	return db.make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment)
+
+
+
+
 
