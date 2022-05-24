@@ -199,9 +199,89 @@ def update_payments(order_id, trans_id, payment_status):
 def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
 	return db.create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay)
 
+
+def loopbody1():
+	list_max = Init()
+	for bid in get_bid_list():
+		if bid['auction_id'] in list_max.get_keys():
+			t = list_max.get(bid['auction_id'])
+			m = getMax(bid, t)
+			list_max.set(bid['auction_id'], m)
+		else:
+			list_max.insert(bid['auction_id'], bid)
+	for i in list_max.get_list():
+		if i['msg_sent'] == '':
+			sendBotMsg(i)
+			create_trans_for_bid_id(i)
+
+
+def loopbody2():
+	time_now = datetime.datetime.utc_now()
+	for i in get_trans_list():
+		t = i['init_time']
+		t1 = datetime.datetime(t)
+		if i['bidder_paid'] == 'NOT PAID':
+			if not validate_time(t, time_now):
+				remove_trans_details(i['id'])
+				sendLateMsg(i['bid_id'])
+				removeBid(i['bid_id'])
+
+
+def loopbody3():
+	bid_list = get_bid_list()
+	auction_list = get_auctions_list()
+	
+	for i in auction_list:
+		exist = False
+		for j in bid_list:
+			if i['id'] == j['auction_id']:
+				exist = True
+		if not  exist:
+			setAuctionFailed(i['id'])
+			sendMsgAuctionFailed(i['seller_id'], i['id'])
+
+
+def get_bid_list():
+	pass
+
+def sendMsgAuctionFailed(seller_id, auction_id):
+	pass
+
+def setAuctionFailed(auction_id):
+	pass
+
+
+class Init():
+	pass
+
+def getMax(b1, b2):
+	pass
+
+def sendBotMsg(b):
+	pass
+
+def create_trans_for_bid_id(b):
+	pass
+
+
+
+def get_trans_list():
+	pass
+
+def validate_time(time, time_now):
+	pass
+
+def remove_trans_details(trans_id):
+	pass
+
+def sendLateMsg(bid_id):
+	pass
+
+def removeBid(bid_id):
+	pass
+
+
 def generate_order_id(auction_id, bid_id):
 	return 'TO BE IMPLEMENTED'
-
-
 
 

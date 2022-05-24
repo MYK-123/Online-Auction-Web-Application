@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS bids (
 	ppi FLOAT,
 	amt FLOAT,
 	fPay FLOAT,
+	msg_sent TEXT DEFAULT '',
 	
 	FOREIGN KEY("participant_id") REFERENCES "user"("id"),
 	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id")
@@ -81,6 +82,7 @@ CREATE TABLE IF NOT EXISTS trans (
 	seller_trans_id TEXT,
 	seller_paid TEXT DEFAULT 'NOT PAID',
 	seller_Pay FLOAT,
+	init_time TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP,
 	
 	FOREIGN KEY("bid_id") REFERENCES "bids"("id"),
 	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id")
