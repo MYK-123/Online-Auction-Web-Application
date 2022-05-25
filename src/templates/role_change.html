@@ -18,7 +18,36 @@
 <div id="front">
 <h1> Admin Control </h1>
 
+<table class="table">
+<tr>
+<td>User Id</td>
+<td>username</td>
+<td>Role</td>
+<td>&nbsp</td>
+</tr>
 
+{% for item in items %}
+
+<tr>
+<td>{{item.id}}</td>
+<td>{{item.username}}</td>
+<td>{{item.role}}</td>
+<td>
+<a class=" btn btn-outline-danger" href="/manager/remove/{{item.id}}"> Remove Manager </a>
+
+<a class=" btn btn-outline-danger" href="/admin/remove/{{item.id}}"> Remove Admin </a>
+
+<a class=" btn btn-outline-success" href="/manager/add/{{item.id}}"> Add Manager </a>
+
+<a class=" btn btn-outline-success" href="/admin/add/{{item.id}}"> Add Admin </a>
+
+
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
 
 </div>
 </div>
