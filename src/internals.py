@@ -28,6 +28,7 @@ from src.connectivity import get_auction_requests_both
 from src.connectivity import make_manager
 from src.connectivity import make_administrator
 from src.connectivity import make_normal_user
+from src.connectivity import get_users_list
 
 
 
@@ -97,14 +98,14 @@ def auction_requests():
 @is_admin
 def add_admin(admin_id):
 	r = make_administrator(admin_id)
-	return "ADMIN ADDED"
+	return redirect(url_for('.admin_cotrols'))
 
 @bp.route('/manager/add/<int:manager_id>/', methods=['GET','POST'])
 @login_required
 @is_admin
 def add_manager(manager_id):
 	r = make_manager(manager_id)
-	return "MANAGER ADDED"
+	return redirect(url_for('.admin_controls'))
 
 @bp.route('/admin/remove/<int:user_id>/', methods=['GET','POST'])
 @bp.route('/manager/remove/<int:user_id>/', methods=['GET','POST'])
@@ -112,5 +113,14 @@ def add_manager(manager_id):
 @is_admin
 def normal_user(user_id):
 	r = make_normal_user(user_id)
-	return "USER SET TO NORMAL USER"
+	return redirect(ul_for('.admin_controls'))
+
+@bp.route('/admin/add/', methods=['GET','POST'])
+@bp.route('/admin/remove/', methods=['GET','POST'])
+@bp.route('/manager/add/', methods=['GET','POST'])
+@bp.route('/manager/remove/', methods=['GET','POST'])
+@login_required
+@is_admin
+def admin_controls():
+	return render_template('role_change.html', name=g.user.get_username(), items=get_users_list())
 
