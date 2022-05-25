@@ -28,14 +28,6 @@ bp = Blueprint('dashboard', __name__)
 
 def get_auction_table():
 	msg = get_auctions_list()
-	l = []
-	button_format = "<input type='image' src='/static/img/participate.png' formaction='/participate/{auction_id}/' />"
-	for i in msg:
-		item = []
-		for key in i.keys():
-			item.append(i[key])
-		item.append(button_format.format(auction_id=i['id']))
-		l.append(item)
 	return msg
 
 @bp.route('/dashboard/', methods=['GET', 'POST'])

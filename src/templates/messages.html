@@ -19,9 +19,9 @@
 <h1> Messages </h1>
 
 {% if msglist %}
-<table border = 1 class="tbl-aaa">
+<table border = 1 class="table">
 	{% for item in msglist %}
-<tr id='t1'>
+<tr class='card'>
 	<td>
 	Subject: <b>{{item.msg_subject}}</b><br>
 	at <i>{{item.created}}</i><br>

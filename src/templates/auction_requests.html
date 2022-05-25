@@ -18,7 +18,7 @@
 
 {% if items %}
 <form>
-<table id='table' class="tbl-aa">
+<table id='table' class="table">
 
 <tr id='t1'>
 <td>&nbsp<b>Request ID</b>&nbsp</td>
@@ -43,13 +43,13 @@
 		<td>{{item.quantity}}</td>
 		<td>{{item.min_price}}</td>
 		<td>{{item.approved}}</td>
-		{% if staff %}
+		{% if staff and  item.approved==0 %}
 
 
 
 <td>
-<button class="btn-round-danger" type='submit' formmethod='post' formaction='/requests/reject/{{item.id}}/{{uid}}/'>Reject Request</button>
-<button class="btn-round-sucess" type='submit' formmethod='post' formaction='/requests/approve/{{item.id}}/{{uid}}/'>Approve Request</button>
+<button class="btn btn-outline-danger" type='submit' formmethod='post' formaction='/requests/reject/{{item.id}}/{{uid}}/'>Reject Request</button>
+<button class="btn btn-outline-success" type='submit' formmethod='post' formaction='/requests/approve/{{item.id}}/{{uid}}/'>Approve Request</button>
 </td>
 		{% else %}
 <td>{{item.response_by}}</td>

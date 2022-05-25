@@ -32,7 +32,7 @@ def send_msg():
 def get_messages():
 	un = g.user.get_username()
 	msg_to_l = list_messages_to(g.user.get_uid())
-	return render_template('messages.html', r=un, msglist=msg_to_l)
+	return render_template('messages.html', name=g.user.get_username(), r=un, msglist=msg_to_l)
 
 
 def send_approval_message(auction_id, req_id):

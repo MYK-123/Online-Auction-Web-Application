@@ -1,8 +1,7 @@
 
 
 {% if items %}
-<form>
-<table id='table' class="tbl-aaa">
+<table id='table' class="table">
 
 <tr id='t1'>
 <td>&nbsp<b>Auction ID</b>&nbsp</td>
@@ -29,7 +28,7 @@
 	<td>{{item.quantity}}</td> 
 	<td>{{item.min_price}}</td>
 	<td>
-	<button class="btn-round-sucess" type='submit' formmethod='post' formaction='/participate/{{item.id}}/' >Participate</button>
+	<a class="btn btn-outline-success" href='/participate/{{item.id}}/' >Participate</a>
 	</td>
 	
 	</tr>
@@ -37,6 +36,5 @@
 {% endfor %}
 
 </table>
-</form>
 {% endif %}
 
