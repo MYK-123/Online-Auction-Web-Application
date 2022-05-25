@@ -87,6 +87,12 @@ def verify_password(username, password):
 		return False
 	return res[0] == password
 
+
+def get_users_list():
+	sql = "SELECT id, fname, lname, username, pan_no, seques, role, address FROM user;"
+	dbase = get_db()
+	return dbase.execute(sql).fetchall()
+
 def get_user_details_by_username(username):
 	dbase = get_db()
 	sql = f"SELECT * FROM user WHERE username='{username}';"

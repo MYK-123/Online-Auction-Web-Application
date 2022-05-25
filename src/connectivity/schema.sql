@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS user (
 	pan_no TEXT UNIQUE,
 	secques TEXT,
 	secans TEXT,
+	address TEXT,
 	role TEXT DEFAULT 'user'
 );
 

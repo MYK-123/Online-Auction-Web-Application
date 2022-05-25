@@ -33,6 +33,9 @@ def create_account(fname, lname, username, pan,  password, secques, secans):
 	"""
 	return db.create_user(fname, lname, username, pan,  enc(password), secques, enc(secans))
 
+def get_users_list():
+	return db.get_users_list()
+
 def get_user_id(username):
 	"""
 	takes username
