@@ -21,7 +21,7 @@
 
 {% if items %}
 <form>
-<table id='table' border=1 class="tbl-aaa">
+<table class="table">
 
 <thead id='t1'>
 <td>&nbsp<b>Auction ID</b>&nbsp</td>
@@ -55,7 +55,7 @@
 	<td>{{item.min_price}}</td>
 	
 	<td>
-	{% if not item.end_datetime %}
+	{% if item.end_datetime=="" %}
 	Start Date: <input type='date' id='date' name='date'>
 	Start Time: <input type='time' id='stime' name='stime'>
 	End Time: <input type='time' id='etime' name='etime'>
@@ -68,9 +68,9 @@
 	</td>
 
 	<td>{{item.finalized}}</td>
-	{% if not item.end_datetime %}
+	{% if item.end_datetime=="" %}
 	<td>
-	<button class="btn-round-sucess" type='submit' formmethod='post' formaction='/auctions/{{item.id}}/date/time/duration/confirm/'> Confirm Date Time </button>
+	<button class="btn-outline-success" type='submit' formmethod='post' formaction='/auctions/{{item.id}}/date/time/duration/confirm/'> Confirm Date Time </button>
 	</td>
 	{% endif %}
 	

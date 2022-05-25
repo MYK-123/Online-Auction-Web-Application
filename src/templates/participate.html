@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Participate - Online Auction WebApplication </title>
+<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/static/css/style.css" />
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script src='/static/js/sell.js'></script>
+</head>
+<body>
+
+{% include 'banner.html' %}
+
+<center>
+<div id="base">
+	<div id="front">
+		<h1> Auction </h1> <br />
+		<form action='/participate/{{auction.id}}/' method='POST'>
+		<table class="table">
+<tr>
+<td colspan=6>Product Title</td>
+</tr><tr>
+<td colspan=6>
+{{auction.title}}
+</td>
+</tr>
+
+<tr>
+<td colspan=6>
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+
+<div class="carousel-indicators">
+{% for f in files %}
+
+{% if f[0]==0 %}
+
+ <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{f[0]}}" class="active" aria-current="true" aria-label="Slide {{f[0]}}"></button>
+
+{% else %}
+
+ <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{f[0]}}" aria-label="Slide {{f[0]}}"></button>
+{% endif %} 
+
+{% endfor %}
+</div> 
+
+
+<div class="carousel-inner">
+
+{% for f in files %}
+
+{% if f[0]==0 %}
+
+ <div class="carousel-item active"> <img src="{{f[1]}}" class="d-block w-100"> </div>
+
+{% else %}
+
+ <div class="carousel-item"> <img src="{{f[1]}}" class="d-block w-100"> </div>
+
+{% endif %}
+
+{% endfor%}
+
+
+ <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span> </button>
+
+<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button>
+
+ </div>
+
+
+</td>
+</tr>
+
+<tr>
+<td colspan=6>Product Description</td>
+</tr><tr>
+<td colspan=6>
+{{auction.desc}}
+</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>
+<input class="btn btn-outline-success" type='button' rows=3 value='-'  id='minus' name='minus' onclick=less()>
+<input type='text' size=5 min="0" max="{{auction.qty}}"  id='qty' name='qty' onchange = "txtChanged();" onkeypress = "this.onchange();" onpaste = "this.onchange();" oninput = "this.onchange();" value='{{qty}}' disabled>
+<input class="btn btn-outline-success" type='button' rows=3 value='+'  id='plus' name='plus' onclick=more()>
+</td>
+<td>price</td>
+<td>
+<input type='number' size=10  id='price' name='price' min="{{auction.min_price}}" onchange = "txtChanged();" onkeypress = "this.onchange();" onpaste = "this.onchange();" oninput = "this.onchange();" value='{{ppi}}' required>
+</td>
+<td>Final Amount</td>
+<td>
+<input type="text" id="amt" name="amt" value="{{amt}}" readonly>
+</td>
+</tr>
+
+<tr>
+<td colspan=3>
+<button class="btn btn-success" type='submit'>Place Bid</buttton>
+</td>
+
+<td colspan=3>
+<button class="btn btn-danger" type='submit' formtarget="/participate/{{auction.id}}/cancel_bid/"> Cancel Bid</buttton>
+</td>
+
+
+</tr>
+
+		</table>
+		</form>
+	</div>
+</div>
+</center>
+</body>
+</html>
