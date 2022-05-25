@@ -3,6 +3,8 @@
 import sqlite3
 import hashlib
 
+from multiprocessing import Lock
+
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
@@ -57,25 +59,21 @@ def init_app(app):
 	app.teardown_appcontext(close_db)
 	app.cli.add_command(init_db_command)
 
-def execute(dba, sql):
-	if dba is not None:
-		print(sql)
-		r = dba.execute(sql).fetchall()
+def execute(sql):
+	l = Lock()
+	l.acquire()
+	try:
+		r = dba.execute(sql).lastrowid
 		dba.commit()
-#		close_db(dba)
+		l.release()
 		return r
-	return None
+	except sqlite3.IntegrityError:
+		l.release()
+		return -2
 
 def create_user(fname, lname, username, pan,  password, secques, secans):
-	dbase = get_db()
 	sql = f"INSERT INTO user (fname, lname, username, pan_no,  password, secques, secans) VALUES ('{fname}', '{lname}', '{username}', '{pan}',  '{password}', '{secques}', '{secans}');"
-	try:
-		r = dbase.execute(sql)
-		dbase.commit()
-		return True
-	except sqlite3.IntegrityError:
-		return False
-
+	return False if execute(sql) == -2 else True
 
 def verify_password(username, password):
 	dbase = get_db()
@@ -105,11 +103,8 @@ def get_user_role(user_id):
 	return r[0]
 
 def set_user_role(user_id, role):
-	dbase = get_db()
 	sql = f"UPDATE user SET role = '{role}' WHERE id = '{user_id}';"
-	dbase.execute(sql).fetchone()
-	dbase.commit()
-
+	execute(sql)
 
 def check_user_exists(username):
 	dbase = get_db()
@@ -139,21 +134,20 @@ def verify_security_answer(username, answer):
 	return False
 
 def update_password(username, password):
-	dbase = get_db()
 	sql = f"UPDATE user SET password = '{password}' WHERE username = '{username}';"
-	r = dbase.execute(sql).fetchone()
-	dbase.commit()
-	#dbase.close()
+	execute(sql)
 	return verify_password(username, password)
 
 def create_auction_request_id(seller_id, title, description, quantity, min_price):
-	dbase = get_db()
 	sql = f"INSERT INTO auction_requests (seller_id, title, description, quantity, min_price) VALUES ({seller_id}, '{title}', '{description}', {quantity}, {min_price});"
-	cur = dbase.cursor()
-	r = cur.execute(sql)
-	dbase.commit()
-	#dbase.close()
+	execute(sql)
 	return r.lastrowid
+
+
+
+TODOFROMHERE
+
+
 
 def approve_an_auction_request(request_id, approved_by):
 	dbase = get_db()
