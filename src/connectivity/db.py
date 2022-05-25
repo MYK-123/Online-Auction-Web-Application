@@ -62,6 +62,7 @@ def init_app(app):
 def execute(sql):
 	l = Lock()
 	l.acquire()
+	dba = get_db()
 	try:
 		r = dba.execute(sql).lastrowid
 		dba.commit()
