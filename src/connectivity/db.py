@@ -69,7 +69,10 @@ def execute(sql):
 		return r
 	except sqlite3.IntegrityError:
 		l.release()
-		return -2
+		return -1
+	except TypeError:
+		l.release()
+		return -1
 
 def create_user(fname, lname, username, pan,  password, secques, secans):
 	sql = f"INSERT INTO user (fname, lname, username, pan_no,  password, secques, secans) VALUES ('{fname}', '{lname}', '{username}', '{pan}',  '{password}', '{secques}', '{secans}');"
@@ -140,52 +143,23 @@ def update_password(username, password):
 
 def create_auction_request_id(seller_id, title, description, quantity, min_price):
 	sql = f"INSERT INTO auction_requests (seller_id, title, description, quantity, min_price) VALUES ({seller_id}, '{title}', '{description}', {quantity}, {min_price});"
-	execute(sql)
-	return r.lastrowid
-
-
-
-TODOFROMHERE
-
-
+	return execute(sql)
 
 def approve_an_auction_request(request_id, approved_by):
+	sql1 = f"UPDATE auction_requests SET approved = 1, response_by = {approved_by} WHERE id = {request_id};"
+	sql2 = f"SELECT seller_id, id, created, title, description, quantity, min_price FROM auction_requests WHERE id = {request_id};"
+	execute(sql1)
 	dbase = get_db()
-	try:
-		sql1 = f"UPDATE auction_requests SET approved = 1, response_by = {approved_by} WHERE id = {request_id};"
-		sql2 = f"SELECT seller_id, id, created, title, description, quantity, min_price FROM auction_requests WHERE id = {request_id};"
-		dbase.execute(sql1)
-		seller_id, req_id, created, title, description, quantity, min_price = dbase.execute(sql2).fetchone()
-		sql3 = f"INSERT INTO auction_list (seller_id, request_id, created, approved_by, title, description, quantity, min_price) VALUES ('{seller_id}', '{req_id}', '{created}', '{approved_by}', '{title}', '{description}', '{quantity}', '{min_price}');"
-		r = dbase.execute(sql3).lastrowid
-	except sqlite3.IntegrityError:
-#		dbase.close()
-		return False, -1
-	except  TypeError:
-#		dbase.close()
-		return False, -1
-	else:
-		dbase.commit()
-#		dbase.close()
-		return True, r
+	seller_id, req_id, created, title, description, quantity, min_price = dbase.execute(sql2).fetchone()
+	sql3 = f"INSERT INTO auction_list (seller_id, request_id, created, approved_by, title, description, quantity, min_price) VALUES ('{seller_id}', '{req_id}', '{created}', '{approved_by}', '{title}', '{description}', '{quantity}', '{min_price}');"
+	return execute(sql3)
 
 def reject_an_auction_request(request_id, rejected_by_id):
-	dbase = get_db()
-	try:
-		sql1 = f"UPDATE auction_requests SET approved = -1, response_by = {rejected_by_id} WHERE id = {request_id};"
-		sql2 = f"DELETE FROM auction_list WHERE request_id = {request_id};"
-		dbase.execute(sql1)
-		dbase.execute(sql2)
-	except sqlite3.IntegrityError:
-#		dbase.close()
-		return False
-	except  TypeError:
-#		dbase.close()
-		return False
-	else:
-		dbase.commit()
-#		dbase.close()
-		return True
+	sql1 = f"UPDATE auction_requests SET approved = -1, response_by = {rejected_by_id} WHERE id = {request_id};"
+	sql2 = f"DELETE FROM auction_list WHERE request_id = {request_id};"
+	r1 = execute(sql1)
+	r2 = execute(sql2)
+	return True if r1 != -1 or r2 != -1 else False
 
 def get_auction_list():
 	sql = "SELECT * FROM auction_list;"
@@ -206,10 +180,7 @@ def get_requests_list_by_id(uid, mode=AUCTION_REQUESTS_LIST_NOT_APPREVED):
 
 def add_new_message(f, t, sub, msg):
 	sql = f'INSERT INTO msg(msg_from, msg_to, msg_subject, msg_data) VALUES ({f}, {t}, {sub}, {msg});'
-	dbase = get_db()
-	dbase.execute(sql)
-	dbase.commit()
-
+	execute(sql)
 
 def get_messages(key=MESSAGE_KEY_TO, value=-1):
 	sql = f"SELECT msg_subject, created, msg_from, msg_to, msg_data FROM msg WHERE {key} = {value} ORDER BY created DESC;"
@@ -226,10 +197,8 @@ def getuser(username):
 	return UserClass(r['fname'], r['lname'], r['username'], r['id'], r['role'])
 
 def save_auction_details(auction_id, start_time, end_time):
-	dbase = get_db()
 	sql = f"UPDATE auction_list SET start_datetime = '{start_time}', end_datetime = '{end_time}', finalized = 1 WHERE id = {auction_id};"
-	dbase.execute(sql)
-	dbase.commit()
+	execute(sql)
 
 def status_auction(auction_id):
 	dbase = get_db()
@@ -237,17 +206,13 @@ def status_auction(auction_id):
 	return dbase.execute(sql).fetchone()
 
 def cancel_auction(uid, auction_id):
-	dbase = get_db()
 	sql = f"UPDATE auction_list SET status = -2 WHERE id = {auction_id} AND seller_id = {uid};"
-	dbase.execute(sql).fetchone()
-	dbase.commit()
+	execute(sql)
 	return 1
 
 def cancel_bid(participant_id, auction_id):
 	sql = f"DELETE FROM bids WHERE participant_id = '{participant_id}' AND auction_id = '{auction_id}' ;"
-	dbase = get_db()
-	dbase.execute(sql)
-	dbase.commit()
+	execute(sql)
 
 def make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment):
 	sql1 = f"SELECT id FROM bids WHERE pariticipant_id = '{bidder_id}' AND auction_id = '{auction_id}' ;"
@@ -255,13 +220,10 @@ def make_bid(bidder_id, auction_id, qty, ppi, amt, finalPayment):
 	r = dbase.execute(sql1).fetchone()
 	if r is not None:
 		sql2 = f"UPDATE bids SET qty = '{qty}', ppi= '{ppi}', amt = '{amt}', fPay = '{finalPayment}' WHERE id = '{r[0]}' ;"
-		dbase.execute(sql2)
-		commit()
+		execute(sql2)
 		return r[0]
 	sql3 = f"INSERT INTO bids (participant_id, auction_id, qty, ppi, amt, fPay) VALUES ('{bidder_id}', '{auction_id}', '{qty}', '{ppi}', '{amt}', '{finalPayment}');"
-	r1 = dbase.execute(sql3)
-	dbase.commit()
-	return r1.lastrowid
+	return execute(sql3)
 
 def get_BidInfo(bid_id):
 	dbase = get_db()
@@ -270,20 +232,13 @@ def get_BidInfo(bid_id):
 	return BidInfo(bid_id, r[0], r[1], r[2], r[3])
 
 def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
-	dbase = get_db()
 	sql = f"INSERT INTO  trans (order_id, bid_id, auction_id, qty, ppi, amt, seller_Pay) VALUES ('{order_id}', '{bid_id}', '{auction_id}', '{qty}', '{ppi}', '{amt}', '{fPay}') ;"
-	r = dbase.execute(sql)
-	dbase.commit()
-	return r.lastrowid
-
-
+	return execute(sql)
 
 def update_payments(order_id, trans_id, payment_status):
 	if payment_status == 'SUCESS':
 		sql = f"UPDATE trans SET trans_id = '{trans_id}', bidder_paid = 'PAID' WHERE order_id = '{order_id}' ;"
-		dbase = get_db()
-		dbase.execute(sql)
-		dbase.commit()
+		execute(sql)
 
 def get_payout_list():
 	dbase = get_db()
@@ -291,15 +246,12 @@ def get_payout_list():
 	return dbase.execute(sql).fetchall()
 
 def create_payout(tid, seller_oreder_id):
-	dbase = get_db()
 	sql = f"UPDATE trans SET seller_order_id = '{seller_order_id}' WHERE id = '{tid}' ;"
-	dbase.execute(sql)
-	dbase.commit()
+	execute(sql)
 
 def update_payouts(tid, seller_trans_id, payment_status):
 	if payment_status == 'SUCESS':
-		dbase = get_db()
 		sql = f"UPDATE trans seller_trans_id = '{seller_trans_id}', seller_paid = 'PAID' WHERE id = '{tid}' ;"
-		dbase.execute(sql)
-		dbase.commit()
+		execute(sql)
+
 
