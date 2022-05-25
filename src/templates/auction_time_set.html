@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Set DateTime - Online Auction WebApplication </title>
+<link rel='stylesheet' href='/static/css/bootstrap.min.css' />
+<link rel='stylesheet' href='/static/css/style.css' />
+<script type="text/javascript" src = "/static/js/bootstrap.min.js"></script>
+<script src = "/static/js/timezones.js"></script>
+</head>
+<body onload='getTimeZone()'>
+
+{% include 'banner.html' %}
+
+
+
+<center>
+
+<div id="base">
+<div id="front">
+<h1> Set Aucction Time and Duration </h1>
+
+{% if items %}
+<form>
+<table class="table">
+
+<thead id='t1'>
+<td>&nbsp<b>Auction ID</b>&nbsp</td>
+
+<td>seller_id</td>
+<td>request_id</td>
+<td>created</td>
+<td>approved_at</td>
+<td>approved_by</td>
+
+<td>&nbsp<b>Title</b>&nbsp</td>
+<td>&nbsp<b>Description</b>&nbsp</td>
+<td>&nbsp<b>Quantity Available</b>&nbsp</td> 
+<td>&nbsp<b>Initial price</b>&nbsp</td>
+<td>&nbsp<b>Auction Date / Time</b>&nbsp</td>
+</thead>
+
+{% for item in items %}
+<tbody>
+	{% if item %}
+	<tr id='{{rowname}}'>
+	<td>{{item.id}}</td>
+	<td>{{item.seller_id}}</td>
+	<td>{{item.request_id}}</td>
+	<td>{{item.created}}</td>
+	<td>{{item.approved_at}}</td>
+	<td>{{item.approved_by}}</td>
+	<td>{{item.title}}</td>
+	<td>{{item.description}}</td>
+	<td>{{item.quantity}}</td> 
+	<td>{{item.min_price}}</td>
+	
+	<td>
+	{% if item.end_datetime=="" %}
+	Start Date: <input type='date' id='date' name='date'>
+	Start Time: <input type='time' id='stime' name='stime'>
+	End Time: <input type='time' id='etime' name='etime'>
+	<input type='hidden' id='tz' name='tz'>
+	{% else %}
+	Start Time: <input type='label' id='stime' name='stime' value='{{item.start_datetime}}'>
+	End Time: <input type='label' id='etime' name='etime' value='{{item.end_datetime}}'>
+	<input type='hidden' id='tz' name='tz'>
+	{% endif %}
+	</td>
+
+	<td>{{item.finalized}}</td>
+	{% if item.end_datetime=="" %}
+	<td>
+	<button class="btn-outline-success" type='submit' formmethod='post' formaction='/auctions/{{item.id}}/date/time/duration/confirm/'> Confirm Date Time </button>
+	</td>
+	{% endif %}
+	
+	</tr>
+	{% endif %}
+</tbody>
+{% endfor %}
+
+</table>
+</form>
+{% endif %}
+
+
+
+
+
+</div>
+</div>
+</center>
+
+{% if debugmsg %}
+
+{{debugmsg}}
+
+{% endif%}
+
+</body>
+</html>
+
+
+
+
+
