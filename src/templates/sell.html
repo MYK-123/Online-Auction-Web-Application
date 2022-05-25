@@ -2,7 +2,9 @@
 <html>
 <head>
 <title> Sell - Online Auction WebApplication </title>
+<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/static/css/style.css" />
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 <script src='/static/js/sell.js'></script>
 </head>
 <body>
@@ -28,13 +30,13 @@
 <tr>
 <td>quantity</td>
 <td>
-<input type='button' rows=3 value='-'  id='minus' name='minus' onclick=less()>
+<input class="btn-circle-sucess" type='button' rows=3 value='-'  id='minus' name='minus' onclick=less()>
 <input type='text' size=5  id='qty' name='qty' value='1' required>
-<input type='button' rows=3 value='+'  id='plus' name='plus' onclick=more()>
+<input class="btn-circle-sucess" type='button' rows=3 value='+'  id='plus' name='plus' onclick=more()>
 </td>
 <td>price</td>
 <td>
-<input type='number' size=10  id='price' name='price' value='0' required>
+<input type='number' size=10  id='price' name='price' min="0" value='0' required>
 </td>
 </tr>
 
@@ -47,7 +49,7 @@
 </tr>
 <tr>
 <td colspan=4>
-<input type='submit' value="Place Order" >
+<input class="btn-round-sucess" type='submit' value="Place Order" >
 </td>
 </tr>
 

@@ -1,40 +1,114 @@
 
 
+<header>
+
+<center><h1>Online Auction Web Application</h1></center>
+
 {% if name %}
-<center> Signed in as {{name}} <a href='/auth/logout'> Logout </a> </center>
+<nav class="navbar sticky-top navbar-expand-lg bg-dark navbar-dark">
+	<div class="container-fluid">
+		<ul class="navbar-nav">
+			<li class="navbar-item">
+				<a href="/dashboard/" class="nav-link active">Dashboard</a>
+			</li>
+			
+			<li class="nav-item">
+				<a href="/participate/" class="nav-link">Participate</a>
+			</li>
+			
+			
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >Sell</a>
+				<ul class="dropdown-menu" area-labelledby="sellDropdown">
+					<li>
+						<a class="dropdown-item" href="/sell/">Sell an item</a>
+					</li>
+					
+					<li>
+						<a class="dropdown-item" href="/requests/status/">Request Status</a>
+					</li>
+				</ul>
+			</li>
+			
+			<li class="navbar-item">
+				<a href="/messages/" class="nav-link">Messsages</a>
+			</li>
+			
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >Auction Manager Controls</a>
+				<ul class="dropdown-menu" area-labelledby="sellDropdown">
+					<li>
+						<a class="dropdown-item" href="/requests/">Auction Requests</a>
+					</li>
+					
+					<li>
+						<a class="dropdown-item" href="/requests/">Approve Request</a>
+					</li>
+					
+					<li>
+						<a class="dropdown-item" href="/requests/">Reject Request</a>
+					</li>
+				</ul>
+			</li>
+			
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >Admin Controls</a>
+				<ul class="dropdown-menu" area-labelledby="sellDropdown">
+					<li>
+						<a class="dropdown-item" href="/admin/add/">Add Admin</a>
+					</li>
+					
+					<li>
+						<a class="dropdown-item" href="/manager/add/">Add Manager</a>
+					</li>
+					
+					<li>
+						<a class="dropdown-item" href="/admin/remove/">Remove Admin</a>
+					</li>
+					
+					<li>
+						<a class="dropdown-item" href="/manager/remove/">Remove Manager</a>
+					</li>
+				</ul>
+			</li>
+			
+			<li class="nav-item dropdown justify-content-end">
+				<a class="nav-link dropdown-toggle" href="#" id="sellDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >Profile</a>
+				<ul class="dropdown-menu" area-labelledby="sellDropdown">
+					<li>
+						<a class="dropdown-item" href="#">Settings</a>
+					</li>
+					
+					<li>
+						<a class="dropdown-item" href="/auth/logout">Log Out</a>
+					</li>
+				</ul>
+			</li>
+			
+		</ul>
+		
+	</div>
+</nav>
 {% else %}
-<center><a href='/auth/login'> Sign in </a> Or <a href='/auth/register'> Sign up </a> </center>
+
+<nav class="navbar sticky-top navbar-expand-lg bg-dark navbar-dark">
+	<div class="container-fluid">
+		<ul class="navbar-nav">
+			<li class="navbar-item">
+				<a href="/dashboard/" class="nav-link active">Dashboard</a>
+			</li>
+			
+		</ul>
+		<div class="justify-content-end">
+		<form class="d-flex">
+		<button class="btn btn-outline-success" type="submit">Sign Up</button>
+		&nbsp&nbsp
+		<button class="btn btn-success" formtarget="/auth/register" type="submit">Sign In</button>
+		</form></div>
+		
+	</div>
+</nav>
+
 {% endif %}
 
-
-<p>
-<hr>
-<a href="/">Homepage</a><br>
-<hr>
-
-<a href="/auth/login/">Sign in</a><br>
-<a href="/auth/register/">Sign up</a><br>
-<a href="/auth/recover/">Recover</a><br>
-<a href="/auth/logout">Sign out</a><br>
-<hr>
-
-<a href="/dashboard/">Dashboard</a><br>
-<a href="/sell/">Sell</a><br>
-<hr>
-
-<a href="/requests/">Requests</a><br>
-<a href="/requests/approve/<int:req_id>/<int:user_id>/">Approve a request</a><br>
-<a href="/requests/approve/<int:req_id>/<int:user_id>/">Reject a request</a><br>
-<hr>
-<a href="/requests/status/">All Request status made by seller</a><br>
-<a href="/requests/<int:req_id>/status/">Particular Request status</a><br>
-<hr>
-Admin Controls<br>
-<a href="/admin/add/<int:admin_id>/">Add Admin</a><br>
-<a href="/manager/add/<int:admin_id>/">Add Manager</a><br>
-<a href="/admin/remove/<int:admin_id>/">Remove Admin</a><br>
-<a href="/manager/remove/<int:admin_id>/">Remove Manager</a><br>
-<hr>
-<a href="/messages/">Messages</a><br>
-<hr>
-</p>
+</header>

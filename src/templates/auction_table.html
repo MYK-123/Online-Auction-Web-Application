@@ -2,7 +2,7 @@
 
 {% if items %}
 <form>
-<table id='table'>
+<table id='table' class="tbl-aaa">
 
 <tr id='t1'>
 <td>&nbsp<b>Auction ID</b>&nbsp</td>
@@ -29,7 +29,7 @@
 	<td>{{item.quantity}}</td> 
 	<td>{{item.min_price}}</td>
 	<td>
-	<button type='submit' formmethod='post' formaction='/participate/{{item.id}}/' >Participate</button>
+	<button class="btn-round-sucess" type='submit' formmethod='post' formaction='/participate/{{item.id}}/' >Participate</button>
 	</td>
 	
 	</tr>
