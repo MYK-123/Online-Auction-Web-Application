@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Payment</title>
-  <style type="text/css" media="screen">
-    form article label {
-      display: block;
-      margin: 5px;
-    }
-
-    form .submit {
-      margin: 15px 0;
-    }
-  </style>
+<title> Payment - Online Auction WebApplication </title>
+<link rel='stylesheet' href='/static/css/bootstrap.min.css' />
+<link rel='stylesheet' href='/static/css/style.css' />
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <h3>These are all the data params to submit (POST) to initiate transaction</h3>
-    <form method="post" action="{{ url }}">
-        <dl>
-            {% for key, value in data.items() %}
-                <label>{{ key }}: {{ value }}</label></br>
-                <input readonly type="hidden" name="{{ key }}" value="{{ value }}">
-            {% endfor %}
-        </dl>
-        <input class="submit" type="submit">
-    </form>
+
+{% include 'banner.html' %}
+
+<center>
+
+<div id="base">
+<div id="front">
+<h1> Payment </h1>
+
+<form method="post" action="{{ url }}">
+	<dl>
+	{% for key, value in display.items() %}
+		<label>{{ key }}: {{ value }}</label></br>
+	{% endfor %}
+	{% for key, value in data.items() %}
+		<input readonly type="hidden" name="{{ key }}" value="{{ value }}">
+	{% endfor %}
+	</dl>
+	<input class="submit" type="submit">
+</form>
+</div>
+</div>
 </body>
 </html>

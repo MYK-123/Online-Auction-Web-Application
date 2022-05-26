@@ -26,4 +26,24 @@ USER_ROLE_USER = 'user'
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = 'admin'
 
+BOT_UID = 999
+
+# Staging configs:
+# Keys from https://dashboard.paytm.com/next/apikeys
+MERCHANT_ID = "YTGATi65911071937029"
+MERCHANT_KEY = "8&iDNyJnLrn7#Sil"
+WEBSITE_NAME = "WEBSTAGING"
+INDUSTRY_TYPE_ID = "Retail"
+CHANNEL_ID = "WEB"
+BASE_URL = "https://securegw-stage.paytm.in"
+
+
+# Production configs:
+# Keys from https://dashboard.paytm.com/next/apikeys
+#MERCHANT_ID = "<MERCHANT_ID>"
+#MERCHANT_KEY = "<MERCHANT_KEY>"
+#WEBSITE_NAME = "<WEBSITE_NAME>"
+#INDUSTRY_TYPE_ID = "<INDUSTRY_TYPE_ID>"
+#BASE_URL = "https://securegw.paytm.in"
+
 

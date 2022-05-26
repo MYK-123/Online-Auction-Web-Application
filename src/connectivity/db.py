@@ -262,3 +262,34 @@ def update_payouts(tid, seller_trans_id, payment_status):
 		execute(sql)
 
 
+def removeBid(bid_id):
+	sql = f"DELETE FROM bids WHERE id = {bid_id};"
+	execute(sql)
+
+def get_bid_list():
+	sql = "SELECT * FROM bids;"
+	dbase = get_db()
+	return dbase.execute(sql).fetchall()
+
+def setAuctionFailed(auction_id):
+	sql1 = f"DELETE FROM trans WHERE auction_id = {auction_id} ;"
+	sql2 = f"DELETE FROM bids WHERE auction_id = {auction_id} ;"
+	sql3 = f"UPDATE auction_list SET status = -1 WHERE id = {auction_id} ;"
+	execute(sql1)
+	execute(sql2)
+	execute(sql3)
+
+def remove_trans_details(trans_id):
+	sql = f"DELETE FROM trans WHERE id = {trans_id}"
+	execute(sql)
+
+def get_order_id(auction_id, bid_id):
+	sql = f""
+	dbase = get_db()
+	# TODO FROM HERE
+
+
+
+
+
+

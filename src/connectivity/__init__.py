@@ -2,6 +2,7 @@
 
 from . import db
 import hashlib
+from datetime import datetime
 
 from src.constants import AUCTION_REQUESTS_LIST_APPROVED
 from src.constants import AUCTION_REQUESTS_LIST_BOTH
@@ -10,6 +11,7 @@ from src.constants import MESSAGE_KEY_TO
 from src.constants import USER_ROLE_ADMIN
 from src.constants import USER_ROLE_MANAGER
 from src.constants import USER_ROLE_USER
+from src.constants import BOT_UID
 
 def enc(m):
 	"""
@@ -236,34 +238,25 @@ def loopbody3():
 		for j in bid_list:
 			if i['id'] == j['auction_id']:
 				exist = True
-		if not  exist:
+		if not exist:
 			setAuctionFailed(i['id'])
 			sendMsgAuctionFailed(i['seller_id'], i['id'])
 
 
 def get_bid_list():
-	pass
+	return db.get_bid_list()
 
 def sendMsgAuctionFailed(seller_id, auction_id):
-	pass
+	db.add_new_message(BOT_UID, seller_id, "AUCTION FAILED", "Sorry, But no participant has completed transaction so your auction of auction id '{auction_id}' is Failed.")
 
 def setAuctionFailed(auction_id):
-	pass
-
-
-class Init():
-	pass
-
-def getMax(b1, b2):
-	pass
+	db.setAuctionFailed(auction_id)
 
 def sendBotMsg(b):
 	pass
 
 def create_trans_for_bid_id(b):
 	pass
-
-
 
 def get_trans_list():
 	pass
@@ -272,16 +265,30 @@ def validate_time(time, time_now):
 	pass
 
 def remove_trans_details(trans_id):
-	pass
+	db.remove_trans_details(trans_id)
 
 def sendLateMsg(bid_id):
 	pass
 
 def removeBid(bid_id):
+	db.removeBid(bid_id)
+
+
+def get_order_id(auction_id, bid_id):
+	return generate_order_id(auction_id, bid_id)
+
+def generate_order_id(auction_id, bid_id):
+	n = datetime.now()
+	t = n.time()
+	return "ORDER_A_" + str(auction_id) + "_B_" + str(bid_id) + "_" + str(n.year) + "_" + str(n.month) + "_" + str(n.day) + "_" + str(t.hour) + "_" + str(t.minute) + "_" + str(t.second)
+
+
+class Init():
+	pass
+
+def getMax(b1, b2):
 	pass
 
 
-def generate_order_id(auction_id, bid_id):
-	return 'TO BE IMPLEMENTED'
 
 

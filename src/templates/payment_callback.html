@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Payment</title>
-  <style type="text/css" media="screen">
-    div {
-      display: block;
-      margin: 15px;
-    }
-  </style>
+<title> Payment - Online Auction WebApplication </title>
+<link rel='stylesheet' href='/static/css/bootstrap.min.css' />
+<link rel='stylesheet' href='/static/css/style.css' />
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <h3>These are all returned response params which should be preferably stored in a database for record:</h3>
+
+{% include 'banner.html' %}
+
+<center>
+
+<div id="base">
+<div id="front">
+<h1> Payment </h1>
+
   <ul>
       {% for key, value in callback_response.items() %}
       <li>{{ key }}: {{ value }}</li>
