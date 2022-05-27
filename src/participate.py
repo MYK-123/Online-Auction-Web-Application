@@ -44,7 +44,7 @@ def get_files(auction_id):
 @bp.route('/participate/', methods=['GET', 'POST'])
 @login_required
 def participate():
-	return render_template('participate_1.html', name=g.user.get_username(), items=get_auctions_list(), rowname='t2')
+	return render_template('participate_1.html', role=g.user.get_role(), name=g.user.get_username(), items=get_auctions_list(), rowname='t2')
 
 
 @bp.route('/participate/<int:auction_id>/', methods=['GET', 'POST'])
