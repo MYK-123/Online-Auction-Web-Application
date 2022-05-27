@@ -161,6 +161,19 @@ def verify_security_answer(username, answer):
 		return r[0] == answer
 	return False
 
+def update_mobile(user_id, mobile):
+	sql = f"UPDATE user SET mobile = '{mobile}' WHERE id = '{user_id}';"
+	execute(sql)
+
+def update_email(user_id, email):
+	sql = f"UPDATE user SET email = '{email}' WHERE id = '{user_id}';"
+	execute(sql)
+
+
+def update_secqa(user_id, secq, seca):
+	sql = f"UPDATE user SET secques = '{secq}', secans = '{seca}' WHERE id = '{user_id}';"
+	execute(sql)
+
 def update_password(username, password):
 	sql = f"UPDATE user SET password = '{password}' WHERE username = '{username}';"
 	execute(sql)
