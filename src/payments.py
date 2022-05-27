@@ -33,7 +33,7 @@ bp = Blueprint('payments', __name__)
 logging.basicConfig(level=logging.DEBUG)
 
 
-@bp.route("/transaction/history/"")
+@bp.route("/transaction/history/")
 @login_required
 def trans_history():
 	return render_template('payment_list.html',heading='Transaction History' , items=get_trans_history(), name = g.user.get_username(), role=g.user.get_role())
