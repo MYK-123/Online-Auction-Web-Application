@@ -225,11 +225,11 @@ def get_requests_list_by_id(uid, mode=AUCTION_REQUESTS_LIST_NOT_APPREVED):
 	return get_db().execute(sql).fetchall();
 
 def add_new_message(f, t, sub, msg):
-	sql = f'INSERT INTO msg(msg_from, msg_to, msg_subject, msg_data) VALUES ({f}, {t}, {sub}, {msg});'
+	sql = f"INSERT INTO msg(msg_from, msg_to, msg_subject, msg_data) VALUES ('{f}', '{t}', '{sub}', '{msg}');"
 	execute(sql)
 
 def get_messages(key=MESSAGE_KEY_TO, value=-1):
-	sql = f"SELECT msg_subject, created, msg_from, msg_to, msg_data FROM msg WHERE {key} = {value} ORDER BY created DESC;"
+	sql = f"SELECT msg_subject, created, msg_from, msg_to, msg_data FROM msg WHERE {key} = '{value}' ORDER BY created DESC;"
 	return get_db().execute(sql).fetchall()
 
 
