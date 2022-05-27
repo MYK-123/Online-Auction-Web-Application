@@ -13,6 +13,7 @@ from src.connectivity import get_order_id
 from src.connectivity import create_payment
 from src.connectivity import getBidInfo
 from src.connectivity import get_trans_list
+from src.connectivity import get_trans_history
 
 from src.auth import login_required
 
@@ -31,6 +32,11 @@ bp = Blueprint('payments', __name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
+
+@bp.route("/payments/checkout/")
+@login_required
+def trans_history():
+	return render_template('payment_list.html', items=get_trans_history(), name = g.user.get_username(), role=g.user.get_role())
 
 
 @bp.route("/payments/checkout/")
