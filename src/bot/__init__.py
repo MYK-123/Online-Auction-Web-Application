@@ -33,6 +33,7 @@ def start_bot(app_cxt, daemon=True):
 	bot = Bot()
 	bot.context(app_cxt)
 	bot.daemon = daemon
+	time.sleep(5)
 	bot.start()
 
 
