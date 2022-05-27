@@ -84,6 +84,9 @@ def execute(sql):
 	except sqlite3.IntegrityError:
 		l.release()
 		return -1
+	except sqlite3.OperationalError:
+		l.release()
+		return -1
 	except TypeError:
 		l.release()
 		return -1
