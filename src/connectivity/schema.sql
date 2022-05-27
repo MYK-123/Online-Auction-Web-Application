@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS user (
 	secques TEXT,
 	secans TEXT,
 	address TEXT,
+	mobile TEXT,
+	email TEXT,
 	role TEXT DEFAULT 'user'
 );
 
