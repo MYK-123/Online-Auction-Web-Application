@@ -46,7 +46,7 @@ def send_approval_message(auction_id, req_id):
 	f = g.user.get_uid()
 	t = seller_id
 	sub = "System Notification"
-	data = f"Your Auction Request with request no \'{req_id}\' has been approved, and your generated auction id is \'{auction_id}\'."
+	data = f"""Your Auction Request with request no "{req_id}" has been approved, and your generated auction id is "{auction_id}"."""
 	send_message(f, t, sub, data)
 
 
@@ -61,7 +61,7 @@ def send_rejection_message(auction_id, req_id):
 	f = g.user.get_uid()
 	t = seller_id
 	sub = "System Notification"
-	data = f"Sorry, but your auction request with request no: \'{req_id}\' has been rejected."
+	data = f"""Sorry, but your auction request with request no: "{req_id}" has been rejected."""
 	send_message(f, t, sub, data)
 
 
