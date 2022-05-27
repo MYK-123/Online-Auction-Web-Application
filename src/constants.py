@@ -26,7 +26,9 @@ USER_ROLE_USER = 'user'
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = 'admin'
 
-BOT_UID = 999
+BOT_USERNAME = 'BOT'
+BOT_PASSWORD = 'BOT'
+
 
 # Staging configs:
 # Keys from https://dashboard.paytm.com/next/apikeys

@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 
 from . import db
+
 import hashlib
+import pytz
+
 from datetime import datetime
 
 from src.constants import AUCTION_REQUESTS_LIST_APPROVED
@@ -11,7 +14,7 @@ from src.constants import MESSAGE_KEY_TO
 from src.constants import USER_ROLE_ADMIN
 from src.constants import USER_ROLE_MANAGER
 from src.constants import USER_ROLE_USER
-from src.constants import BOT_UID
+
 
 def enc(m):
 	"""
@@ -37,6 +40,9 @@ def create_account(fname, lname, username, pan,  password, secques, secans):
 
 def get_users_list():
 	return db.get_users_list()
+
+def get_bot_id():
+	return db.get_bot_id()
 
 def get_user_id(username):
 	"""
@@ -212,16 +218,17 @@ def loopbody1():
 		else:
 			list_max.insert(bid['auction_id'], bid)
 	for i in list_max.get_list():
-		if i['msg_sent'] == '':
-			sendBotMsg(i)
-			create_trans_for_bid_id(i)
+		print(i['msg_sent'])
+		if i['msg_sent'] == '' or i['msg_sent'] == None:
+			order_id = create_trans_for_bid_id(i)
+			sendBotMsg(i['participant_id'], i['auction_id'], order_id)
 
 
 def loopbody2():
-	time_now = datetime.datetime.utc_now()
+	time_now = datetime.utcnow()
 	for i in get_trans_list():
 		t = i['init_time']
-		t1 = datetime.datetime(t)
+		t1 = datetime.fromisoformat(t)
 		if i['bidder_paid'] == 'NOT PAID':
 			if not validate_time(t, time_now):
 				remove_trans_details(i['id'])
@@ -242,53 +249,91 @@ def loopbody3():
 			setAuctionFailed(i['id'])
 			sendMsgAuctionFailed(i['seller_id'], i['id'])
 
+def from_local_to_utc(s, tz, dst=False):
+	local = pytz.timezone(tz)
+	dt = datetime.fromisoformat(s)
+	local_dt = local.localize(dt, is_dst=dst)
+	utc_dt = local_dt.astimezone(pytz.utc)
+	return utc_dt.strftime("%Y-%m-%d %H:%M:%S")
 
 def get_bid_list():
 	return db.get_bid_list()
 
 def sendMsgAuctionFailed(seller_id, auction_id):
-	db.add_new_message(BOT_UID, seller_id, "AUCTION FAILED", "Sorry, But no participant has completed transaction so your auction of auction id '{auction_id}' is Failed.")
+	db.add_new_message(get_bot_id(), seller_id, "AUCTION FAILED", "Sorry, But no participant has completed transaction so your auction of auction id '{auction_id}' is Failed.")
 
 def setAuctionFailed(auction_id):
 	db.setAuctionFailed(auction_id)
 
-def sendBotMsg(b):
-	pass
+def sendBotMsg(participant_id, auction_id, order_id):
+	sub = 'BID SUCCESSFUL'
+	content = f"Conratulations, Your Bid for auction_id '{auction_id}' is Successfull with order id '{order_id}' proceed with payments within 5 minutes or your bid will be considered invalid."
+	db.add_new_message(get_bot_id(), participant_id, sub, content)
+
+def generate_order_id(auction_id, bid_id):
+	n = datetime.utcnow()
+	t = n.time()
+	return "ORDER_A_" + str(auction_id) + "_B_" + str(bid_id) + "_" + str(n.year) + "_" + str(n.month) + "_" + str(n.day) + "_" + str(t.hour) + "_" + str(t.minute) + "_" + str(t.second)
 
 def create_trans_for_bid_id(b):
-	pass
+	order_id = generate_order_id(b['auction_id'], b['id'])
+	db.create_payment(order_id, b['id'], b['auction_id'], b['qty'], b['ppi'], b['amt'], b['fPay'])
+	return order_id
 
 def get_trans_list():
-	pass
+	return db.get_trans_list()
 
 def validate_time(time, time_now):
-	pass
+	d = time_now - time
+	return d.days == 0 and d.seconds < (5 * 60) # less than five minutes
 
 def remove_trans_details(trans_id):
 	db.remove_trans_details(trans_id)
 
 def sendLateMsg(bid_id):
-	pass
+	for i in get_bid_list():
+		if i['id'] == bid_id:
+			auction_id = i['auction_id']
+			participant_id = i['participant_id']
+			db.add_new_message(get_bot_id(), participant_id, "BID TIMEOUT", "Sorry, But your bid for auction_id '{auction_id}' is now Invalid as you have not completed payment within given time.")
 
 def removeBid(bid_id):
 	db.removeBid(bid_id)
 
-
 def get_order_id(auction_id, bid_id):
-	return generate_order_id(auction_id, bid_id)
-
-def generate_order_id(auction_id, bid_id):
-	n = datetime.now()
-	t = n.time()
-	return "ORDER_A_" + str(auction_id) + "_B_" + str(bid_id) + "_" + str(n.year) + "_" + str(n.month) + "_" + str(n.day) + "_" + str(t.hour) + "_" + str(t.minute) + "_" + str(t.second)
+	return db.get_order_id(auction_id, bid_id)
 
 
 class Init():
-	pass
+	def __init__(self):
+		self._l = dict()
+	
+	def insert(self, k, v):
+		self._l[k] = v
+	
+	def set(self, k, v):
+		self._l[k] = v
+	
+	def get(self, k):
+		return self._l[k]
+	
+	def get_keys(self):
+		return list(self._l.keys())
+	
+	def get_list(self):
+		return list(self._l.values())
 
 def getMax(b1, b2):
-	pass
-
-
+	if b1['ppi'] > b2['ppi']:
+		return b1
+	elif b1['ppi'] < b2['ppi']:
+		return b2
+	else:
+		if b1['qty'] > b2['qty']:
+			return b1
+		elif b1['qty'] < b2['qty']:
+			return b2
+		else:
+			return b1 if datetime.fromisoformat(b1['created']) > datetime.fromisoformat(b2['created']) else b2
 
 

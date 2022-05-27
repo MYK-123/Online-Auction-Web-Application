@@ -1,8 +1,5 @@
 #!/usr/bin/python3
 
-from datetime import datetime
-
-
 from flask import g
 from flask import jsonify
 from flask import request
@@ -17,6 +14,7 @@ from src.connectivity import get_auctions_list
 from src.connectivity import save_auction_times
 from src.connectivity import cancel_auction as cancel_auction1
 from src.connectivity import status_auction
+from src.connectivity import from_local_to_utc
 
 bp = Blueprint('auctions', __name__)
 
@@ -30,15 +28,6 @@ def list_auctions():
 			lf.append(i)
 	return render_template('auction_time_set.html', name=g.user.get_username(), items=lf, rowname='t2',role=g.user.get_role())
 
-
-def from_local_to_utc(s, tz, dst=False):
-	import pytz
-	local = pytz.timezone(tz)
-	dt = datetime.fromisoformat(s)
-	local_dt = local.localize(dt, is_dst=dst)
-	utc_dt = local_dt.astimezone(pytz.utc)
-	return utc_dt.strftime("%Y-%m-%d %H:%M:%S")
-	
 
 @bp.route('/auctions/<int:auction_id>/date/time/duration/confirm/', methods=['GET', 'POST'])
 @login_required

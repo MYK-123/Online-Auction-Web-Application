@@ -1,14 +1,38 @@
 #!/usr/bin/python3
 
-from flask import Blueprint
+import time
 
-bp = Blueprint('bot', __name__)
+from src.connectivity import loopbody1
+from src.connectivity import loopbody2
+from src.connectivity import loopbody3
 
-@bp.route('/alg/start/', methods=['GET', 'POST'])
-def start():
-	pass
+from multiprocessing import Process, Value
 
-@bp.route('/alg/stop/', methods=['GET', 'POST'])
-def stop():
-	pass
+class Bot(Process):
+	is_running = False
+	def run(self):
+		while self.is_running:
+			with self.cxt:
+				loopbody1()
+				loopbody2()
+				loopbody3()
+				time.sleep(3)
+	
+	def context(self, app_cxt):
+		self.cxt = app_cxt
+	
+	def start(self):
+		self.is_running = True
+		super().start()
+
+	def set_deamon(self, d):
+		self.deamon = d
+
+
+def start_bot(app_cxt, daemon=True):
+	bot = Bot()
+	bot.context(app_cxt)
+	bot.daemon = daemon
+	bot.start()
+
 

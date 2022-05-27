@@ -37,6 +37,8 @@
 <td>&nbsp<b>Quantity Available</b>&nbsp</td> 
 <td>&nbsp<b>Initial price</b>&nbsp</td>
 <td>&nbsp<b>Auction Date / Time</b>&nbsp</td>
+<td>&nbsp<b>Finalized</b>&nbsp</td>
+<td>&nbsp<b>Confirm</b>&nbsp</td>
 </thead>
 
 {% for item in items %}
@@ -55,7 +57,7 @@
 	<td>{{item.min_price}}</td>
 	
 	<td>
-	{% if item.end_datetime=="" %}
+	{% if item.end_datetime==None %}
 	Start Date: <input type='date' id='date' name='date'>
 	Start Time: <input type='time' id='stime' name='stime'>
 	End Time: <input type='time' id='etime' name='etime'>
@@ -68,10 +70,12 @@
 	</td>
 
 	<td>{{item.finalized}}</td>
-	{% if item.end_datetime=="" %}
+	{% if item.end_datetime==None %}
 	<td>
-	<button class="btn-outline-success" type='submit' formmethod='post' formaction='/auctions/{{item.id}}/date/time/duration/confirm/'> Confirm Date Time </button>
+	<button class="btn btn-outline-success" type='submit' formmethod='post' formaction='/auctions/{{item.id}}/date/time/duration/confirm/'> Confirm Date Time </button>
 	</td>
+	{% else %}
+	<td>Already Done</td>
 	{% endif %}
 	
 	</tr>

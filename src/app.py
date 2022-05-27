@@ -2,11 +2,12 @@
 
 import os
 
+from src.bot import start_bot
+from src.connectivity import getuser
+
 from src.constants import UPLOAD_FOLDER
 from src.constants import DATABASE_FILE
 from src.constants import DATABASE_SCHEMA_FILE
-
-from src.connectivity import getuser
 
 from flask import Flask
 from flask import g
@@ -26,7 +27,6 @@ import src.auctions as auctions
 import src.dashboard as dashboard
 import src.internals as internals
 import src.messages as messages
-import src.bot as bot
 import src.participate as participate
 import src.payments as payments
 
@@ -58,7 +58,6 @@ def create_app(test_config=None):
 	app.register_blueprint(internals.bp)
 	app.register_blueprint(messages.bp)
 	app.register_blueprint(participate.bp)
-	app.register_blueprint(bot.bp)
 	app.register_blueprint(payments.bp)
 	
 	@app.before_request
@@ -76,6 +75,8 @@ def create_app(test_config=None):
 	
 	from src.connectivity import db
 	db.init_app(app)
+	
+	start_bot(app.app_context())
 	
 	return app
 

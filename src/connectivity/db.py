@@ -15,8 +15,11 @@ from src.constants import AUCTION_REQUESTS_LIST_NOT_APPREVED
 from src.constants import AUCTION_REQUESTS_LIST_BOTH
 from src.constants import MESSAGE_KEY_TO
 from src.constants import USER_ROLE_ADMIN
+from src.constants import USER_ROLE_MANAGER
 from src.constants import ADMIN_USERNAME
 from src.constants import ADMIN_PASSWORD
+from src.constants import BOT_USERNAME
+from src.constants import BOT_PASSWORD
 
 
 def get_db():
@@ -46,6 +49,14 @@ def create_admin_user():
 		admin_id = get_user_details_by_username(ADMIN_USERNAME)['id']
 		set_user_role(admin_id, USER_ROLE_ADMIN)
 
+def create_bot_user():
+	bot_pass = hashlib.sha256(BOT_PASSWORD.encode('utf-8')).hexdigest()
+	bot_answer = hashlib.sha256('BOT'.encode('utf-8')).hexdigest()
+	if create_user('Bot', 'Bot', BOT_USERNAME, 'Bot',  bot_pass, 'Bot', bot_answer):
+		bot_id = get_user_details_by_username(BOT_USERNAME)['id']
+		set_user_role(bot_id, USER_ROLE_MANAGER)
+
+
 
 @click.command('init_db')
 @with_appcontext
@@ -54,6 +65,8 @@ def init_db_command():
 	click.echo('Initializing the Database...')
 	create_admin_user()
 	click.echo('Creating Admin user...')
+	create_bot_user()
+	click.echo('Creating Bot user...')
 
 def init_app(app):
 	app.teardown_appcontext(close_db)
@@ -86,6 +99,11 @@ def verify_password(username, password):
 	if res is None:
 		return False
 	return res[0] == password
+
+def get_bot_id():
+	sql = "SELECT id FROM user;"
+	dbase = get_db()
+	return dbase.execute(sql).fetchone()['id']
 
 
 def get_users_list():
@@ -283,13 +301,12 @@ def remove_trans_details(trans_id):
 	sql = f"DELETE FROM trans WHERE id = {trans_id}"
 	execute(sql)
 
+def get_trans_list():
+	sql = "SELECT * FROM trans;"
+	return get_db().execute(sql).fetchall()
+
 def get_order_id(auction_id, bid_id):
-	sql = f""
-	dbase = get_db()
-	# TODO FROM HERE
-
-
-
-
+	sql = f"SELECT order_id FROM trans WHERE auction_id = '{auction_id}' AND bid_id = '{bid_id}' ;"
+	return get_db().execute(sql).fetchone()['order_id']
 
 

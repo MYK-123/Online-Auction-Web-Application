@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS bids (
 	amt FLOAT,
 	fPay FLOAT,
 	msg_sent TEXT DEFAULT '',
+	created TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP,
 	
 	FOREIGN KEY("participant_id") REFERENCES "user"("id"),
 	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id")
