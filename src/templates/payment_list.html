@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Payments - Online Auction WebApplication </title>
+<link rel='stylesheet' href='/static/css/bootstrap.min.css' />
+<link rel='stylesheet' href='/static/css/style.css' />
+<script type="text/javascript" src = "/static/js/bootstrap.min.js"></script>
+<script src = "/static/js/timezones.js"></script>
+</head>
+<body onload='getTimeZone()'>
+
+{% include 'banner.html' %}
+
+
+
+<center>
+
+<div id="base">
+<div id="front">
+<h1> Payments </h1>
+
+{% if items %}
+<form>
+<table class="table">
+
+<thead id='t1'>
+
+<td>&nbsp<b>ID</b>&nbsp</td>
+<td>&nbsp<b>ORDER ID</b>&nbsp</td>
+<td>&nbsp<b>BID ID</b>&nbsp</td>
+<td>&nbsp<b>AUCTION ID</b>&nbsp</td>
+<td>&nbsp<b>Amount</b>&nbsp</td>
+<td>&nbsp<b>Status</b>&nbsp</td>
+<td>&nbsp<b>Confirm</b>&nbsp</td>
+</thead>
+
+{% for item in items %}
+<tbody>
+	{% if item %}
+	<tr id='{{rowname}}'>
+	
+	<td>{{item.id}}</td>
+	<td>{{item.order_id}}</td>
+	<td>{{item.bid_id}}</td>
+	<td>{{item.auction_id}}</td>
+	<td>{{item.amt}}</td>
+	<td>{{item.bidder_paid}}</td>
+	
+	{% if item.bidder_paid=='NOT PAID' %}
+	<td>
+	<button class="btn btn-outline-success" type='submit' formmethod='post' formaction='/payments/{{ item.auction_id }}/{{ item.bid_id }}/checkout/'> Proceed To Pay </button>
+	</td>
+	{% else %}
+	<td>Already Done</td>
+	{% endif %}
+	
+	</tr>
+	{% endif %}
+</tbody>
+{% endfor %}
+
+</table>
+</form>
+{% endif %}
+
+
+
+
+
+</div>
+</div>
+</center>
+
+{% if debugmsg %}
+
+{{debugmsg}}
+
+{% endif%}
+
+</body>
+</html>
+
+
+
+
+
