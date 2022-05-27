@@ -85,6 +85,7 @@ def execute(sql):
 		l.release()
 		return -1
 	except sqlite3.OperationalError:
+		print(sql)
 		l.release()
 		return -1
 	except TypeError:
