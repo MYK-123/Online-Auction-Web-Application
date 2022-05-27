@@ -222,6 +222,7 @@ def loopbody1():
 		if i['msg_sent'] == '' or i['msg_sent'] == None:
 			order_id = create_trans_for_bid_id(i)
 			sendBotMsg(i['participant_id'], i['auction_id'], order_id)
+			setMsgSent(i['auction_id'])
 
 
 def loopbody2():
@@ -260,13 +261,13 @@ def get_bid_list():
 	return db.get_bid_list()
 
 def sendMsgAuctionFailed(seller_id, auction_id):
-	db.add_new_message(get_bot_id(), seller_id, 'AUCTION FAILED', f"Sorry, But no participant has completed transaction so your auction of auction id \'{auction_id}\' is Failed.")
+	db.add_new_message(get_bot_id(), seller_id, 'AUCTION FAILED', f"""Sorry, But no participant has completed transaction so your auction of auction id "{auction_id}" is Failed.""")
 
 def setAuctionFailed(auction_id):
 	db.setAuctionFailed(auction_id)
 
 def sendBotMsg(participant_id, auction_id, order_id):
-	db.add_new_message(get_bot_id(), participant_id, 'BID SUCCESSFUL', f"Conratulations, Your Bid for auction_id \'{auction_id}\' is Successfull with order id \'{order_id}\' proceed with payments within 5 minutes or your bid will be considered invalid.")
+	db.add_new_message(get_bot_id(), participant_id, 'BID SUCCESSFUL', f"""Conratulations, Your Bid for auction_id "{auction_id}" is Successfull with order id "{order_id}" proceed with payments within 5 minutes or your bid will be considered invalid.""")
 
 def generate_order_id(auction_id, bid_id):
 	n = datetime.utcnow()
@@ -293,7 +294,7 @@ def sendLateMsg(bid_id):
 		if i['id'] == bid_id:
 			auction_id = i['auction_id']
 			participant_id = i['participant_id']
-			db.add_new_message(get_bot_id(), participant_id, 'BID TIMEOUT', f"Sorry, But your bid for auction_id \'{auction_id}\' is now Invalid as you have not completed payment within given time.")
+			db.add_new_message(get_bot_id(), participant_id, 'BID TIMEOUT', f"""Sorry, But your bid for auction_id "{auction_id}" is now Invalid as you have not completed payment within given time.""")
 
 def removeBid(bid_id):
 	db.removeBid(bid_id)
@@ -336,5 +337,8 @@ def getMax(b1, b2):
 
 def is_auction_finished(auction):
 	return datetime.utcnow() > datetime.fromisoformat(str(auction['end_datetime']))
+
+def setMsgSent(auction_id):
+	db.setMsgSent(auction_id)
 
 
