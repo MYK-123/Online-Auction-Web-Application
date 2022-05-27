@@ -229,7 +229,7 @@ def add_new_message(f, t, sub, msg):
 	execute(sql)
 
 def get_messages(key=MESSAGE_KEY_TO, value=-1):
-	sql = f"SELECT msg_subject, created, msg_from, msg_to, msg_data FROM msg WHERE {key} = '{value}' ORDER BY created DESC;"
+	sql = f"SELECT msg_subject, created, msg_from, msg_to, msg_data FROM msg WHERE {key} = {value} ORDER BY created DESC;"
 	return get_db().execute(sql).fetchall()
 
 
