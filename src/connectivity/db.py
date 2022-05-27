@@ -334,4 +334,9 @@ def get_trans_history():
 	sql = "SELECT * FROM trans WHERE bidder_paid = 'PAID';"
 	return get_db().execute(sql).fetchall()
 
+def setMsgSent(bid_id):
+	sql = f"UPDATE bids SET msg_sent = 'SENT' WHERE id = '{bid_id}' ;"
+	execute(sql)
+
+
 
