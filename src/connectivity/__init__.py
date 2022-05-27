@@ -228,7 +228,7 @@ def loopbody2():
 	time_now = datetime.utcnow()
 	for i in get_trans_list():
 		t = i['init_time']
-		t1 = datetime.fromisoformat(t)
+		t1 = datetime.fromisoformat(str(t))
 		if i['bidder_paid'] == 'NOT PAID':
 			if not validate_time(t, time_now):
 				remove_trans_details(i['id'])
@@ -335,6 +335,6 @@ def getMax(b1, b2):
 			return b1 if datetime.fromisoformat(b1['created']) > datetime.fromisoformat(b2['created']) else b2
 
 def is_auction_finished(auction):
-	return datetime.utcnow() > datetime.fromisoformat(auction['end_datetime'])
+	return datetime.utcnow() > datetime.fromisoformat(str(auction['end_datetime']))
 
 
