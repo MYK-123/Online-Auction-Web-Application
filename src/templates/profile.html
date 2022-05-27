@@ -18,7 +18,66 @@
 <div id="front">
 <h1> Profile </h1>
 
+<table>
 
+<form>
+<tr>
+<td>First Name:</td>
+<td><input type='{{t}}' name='fname' value='{{ profile.fname }}' ></td>
+</tr>
+<tr>
+<td>Last Name:</td>
+<td><input type='{{t}}' name='lname' value='{{ profile.lname }}' ></td>
+</tr>
+<tr>
+<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
+</tr>
+</form>
+
+<tr>
+<td>Username:</td>
+<td><input type='label' value='{{ profile.username }}' ></td>
+</tr>
+
+<form>
+<tr>
+<td>Address:</td>
+<td><input type='{{t}}' name='address' value='{{ profile.address }}' ></td>
+<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
+</tr>
+</form>
+
+<form>
+<tr>
+<td>Mobile No:</td>
+<td><input type='{{t}}' name='mobile' value='{{ profile.mobile }}' ></td>
+<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
+</tr>
+</form>
+
+<form>
+<tr>
+<td>E-Mail:</td>
+<td><input type='{{t}}' name='email' value='{{ profile.email }}' ></td>
+<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
+</tr>
+</form>
+
+<form>
+<tr>
+<td>Sequrity Question:</td>
+<td><input type='{{t}}' name='secq' value='{{ profile.secques }}' ></td>
+</tr>
+<tr>
+<td>Sequrity Answer:</td>
+<td><input type='{{t}}' name='seca' value='{{ profile.secans }}' ></td>
+</tr>
+<tr>
+<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
+</tr>
+</form>
+
+</table>
 
 </div>
 </div>
