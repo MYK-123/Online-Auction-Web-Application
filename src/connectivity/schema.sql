@@ -90,6 +90,6 @@ CREATE TABLE IF NOT EXISTS trans (
 	
 	FOREIGN KEY("bid_id") REFERENCES "bids"("id"),
 	FOREIGN KEY("auction_id") REFERENCES "auction_list"("id")
-	
+	UNIQUE("auction_id","bid_id")
 );
 
