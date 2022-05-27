@@ -326,4 +326,8 @@ def get_order_id(auction_id, bid_id):
 	sql = f"SELECT order_id FROM trans WHERE auction_id = '{auction_id}' AND bid_id = '{bid_id}' ;"
 	return get_db().execute(sql).fetchone()['order_id']
 
+def get_trans_history():
+	sql = "SELECT * FROM trans WHERE bidder_paid = 'PAID';"
+	return get_db().execute(sql).fetchall()
+
 
