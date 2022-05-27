@@ -342,3 +342,7 @@ def is_auction_finished(auction):
 def setMsgSent(bid_id):
 	db.setMsgSent(bid_id)
 
+def get_trans_history():
+	return db.get_trans_history()
+
+
