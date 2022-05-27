@@ -161,6 +161,10 @@ def verify_security_answer(username, answer):
 		return r[0] == answer
 	return False
 
+def update_address(user_id, address):
+	sql = f"UPDATE user SET address = '{address}' WHERE id = '{user_id}';"
+	execute(sql)
+
 def update_mobile(user_id, mobile):
 	sql = f"UPDATE user SET mobile = '{mobile}' WHERE id = '{user_id}';"
 	execute(sql)
