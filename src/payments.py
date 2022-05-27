@@ -36,13 +36,13 @@ logging.basicConfig(level=logging.DEBUG)
 @bp.route("/transaction/history/")
 @login_required
 def trans_history():
-	return render_template('payment_list.html',heading='Transaction History' , items=get_trans_history(), name = g.user.get_username(), role=g.user.get_role())
+	return render_template('payment_list.html',heading='Transaction History' , items=get_trans_history(), name = g.user.get_username(), role=g.user.get_role(), rowname='t2')
 
 
 @bp.route("/payments/checkout/")
 @login_required
 def payment_list():
-	return render_template('payment_list.html',heading='Payments', items=get_trans_list(), name = g.user.get_username(), role=g.user.get_role())
+	return render_template('payment_list.html',heading='Payments', items=get_trans_list(), name = g.user.get_username(), role=g.user.get_role(), rowname='t2')
 
 
 @bp.route('/payments/<int:auction_id>/<int:bid_id>/checkout/', methods=['GET', 'POST'])
