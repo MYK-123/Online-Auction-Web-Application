@@ -42,7 +42,7 @@ def trans_history():
 @bp.route("/payments/checkout/")
 @login_required
 def payment_list():
-	return render_template('payment_list.html',heading='Transaction History', items=get_trans_list(), name = g.user.get_username(), role=g.user.get_role())
+	return render_template('payment_list.html',heading='Payments', items=get_trans_list(), name = g.user.get_username(), role=g.user.get_role())
 
 
 @bp.route('/payments/<int:auction_id>/<int:bid_id>/checkout/', methods=['GET', 'POST'])
