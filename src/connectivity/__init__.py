@@ -335,6 +335,6 @@ def getMax(b1, b2):
 			return b1 if datetime.fromisoformat(b1['created']) > datetime.fromisoformat(b2['created']) else b2
 
 def is_auction_finished(auction):
-	return datetime.utcnow() > datetime.fromisoformat(auction['auction_end'])
+	return datetime.utcnow() > datetime.fromisoformat(auction['end_datetime'])
 
 
