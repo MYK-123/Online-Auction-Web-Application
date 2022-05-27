@@ -222,7 +222,7 @@ def loopbody1():
 		if i['msg_sent'] == '' or i['msg_sent'] == None:
 			order_id = create_trans_for_bid_id(i)
 			sendBotMsg(i['participant_id'], i['auction_id'], order_id)
-			setMsgSent(i['auction_id'])
+			setMsgSent(i['id'])
 
 
 def loopbody2():
@@ -338,7 +338,7 @@ def getMax(b1, b2):
 def is_auction_finished(auction):
 	return datetime.utcnow() > datetime.fromisoformat(str(auction['end_datetime']))
 
-def setMsgSent(auction_id):
-	db.setMsgSent(auction_id)
+def setMsgSent(bid_id):
+	db.setMsgSent(bid_id)
 
 
