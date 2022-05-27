@@ -245,7 +245,7 @@ def loopbody3():
 		for j in bid_list:
 			if i['id'] == j['auction_id']:
 				exist = True
-		if not exist:
+		if not exist and is_auction_finished(i):
 			setAuctionFailed(i['id'])
 			sendMsgAuctionFailed(i['seller_id'], i['id'])
 
@@ -333,5 +333,8 @@ def getMax(b1, b2):
 			return b2
 		else:
 			return b1 if datetime.fromisoformat(b1['created']) > datetime.fromisoformat(b2['created']) else b2
+
+def is_auction_finished(auction):
+	return datetime.utcnow() > datetime.fromisoformat(auction['auction_end'])
 
 
