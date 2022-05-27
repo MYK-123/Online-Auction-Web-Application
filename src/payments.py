@@ -12,6 +12,7 @@ from flask import render_template
 from src.connectivity import get_order_id
 from src.connectivity import create_payment
 from src.connectivity import getBidInfo
+from src.connectivity import get_trans_list
 
 from src.constants import MERCHANT_ID
 from src.constants import MERCHANT_KEY
@@ -32,7 +33,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 @bp.route("/payments/checkout/")
 def payment_list():
-	return render_template('dashboard.html', name = g.user.get_username(), role=g.user.get_role())
+	return render_template('payment_list.html', items=get_trans_list(), name = g.user.get_username(), role=g.user.get_role())
 
 
 @bp.route('/payments/<int:auction_id>/<int:bid_id>/checkout/', methods=['GET', 'POST'])
