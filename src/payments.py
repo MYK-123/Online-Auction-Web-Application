@@ -14,6 +14,8 @@ from src.connectivity import create_payment
 from src.connectivity import getBidInfo
 from src.connectivity import get_trans_list
 
+from src.auth import login_required
+
 from src.constants import MERCHANT_ID
 from src.constants import MERCHANT_KEY
 from src.constants import WEBSITE_NAME
@@ -32,11 +34,13 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 @bp.route("/payments/checkout/")
+@login_required
 def payment_list():
 	return render_template('payment_list.html', items=get_trans_list(), name = g.user.get_username(), role=g.user.get_role())
 
 
 @bp.route('/payments/<int:auction_id>/<int:bid_id>/checkout/', methods=['GET', 'POST'])
+@login_required
 def pay_proceed(auction_id, bid_id):
 	order_id = get_order_id(auction_id, bid_id)
 	if order_id == None:
@@ -78,6 +82,7 @@ def pay_proceed(auction_id, bid_id):
 
 
 @bp.route('/payments/callback/', methods=['GET', 'POST'])
+@login_required
 def callback():
 	# log the callback response payload returned:
 	callback_response = request.form.to_dict()
