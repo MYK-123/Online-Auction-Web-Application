@@ -17,68 +17,194 @@
 <div id="base">
 <div id="front">
 <h1> Profile </h1>
+<!-- ======================  PROFILE CONTENT ===================== -->
 
+<!-- ======================  TABBED NAVIGATION ===================== -->
+<dir>
+<ul class="nav nav-tabs">
+	<li class="nav-item">
+		{% if type=='overview' %}
+		<a class="nav-link active" href="/profie?type=overview">Overview</a>
+		{% else %}
+		<a class="nav-link active" href="/profie?type=overview">Overview</a>
+		{% endif %}
+	</li>
+	
+	<li class="nav-item">
+		{% if type=='updateName' %}
+		<a class="nav-link active" href="/profie?type=updateName">Update Name</a>
+		{% else %}
+		<a class="nav-link" href="/profie?type=updateName">Update Name</a>
+		{% endif %}
+	</li>
+	
+	<li class="nav-item">
+		{% if type=='updateAddress' %}
+		<a class="nav-link active" href="/profie?type=updateAddress">Update Address</a>
+		{% else %}
+		<a class="nav-link" href="/profie?type=updateAddress">Update Address</a>
+		{% endif %}
+	</li>
+	
+	<li class="nav-item">
+		{% if type=='updateMobile' %}
+		<a class="nav-link active" href="/profie?type=updateMobile">Update Mobile No</a>
+		{% else %}
+		<a class="nav-link" href="/profie?type=updateMobile">Update Mobile No</a>
+		{% endif %}
+	</li>
+	
+	<li class="nav-item">
+		{% if type=='updateEmail' %}
+		<a class="nav-link active" href="/profie?type=updateEmail">Update Email</a>
+		{% else %}
+		<a class="nav-link" href="/profie?type=updateEmail">Update Email</a>
+		{% endif %}
+	</li>
+	
+	<li class="nav-item">
+		{% if type=='updatePassword' %}
+		<a class="nav-link active" href="/profie?type=updatePassword">Update Password</a>
+		{% else %}
+		<a class="nav-link" href="/profie?type=updatePassword">Update Password</a>
+		{% endif %}
+	</li>
+	
+	<li class="nav-item">
+		{% if type=='updateSecQA' %}
+		<a class="nav-link active" href="/profie?type=updateSecQA">Update Security Question Answer</a>
+		{% else %}
+		<a class="nav-link" href="/profie?type=updateSecQA">Update Security Question Answer</a>
+		{% endif %}
+	</li>
+</ul>
+</div>
+<!-- ======================  TABBED NAVIGATION END ================= -->
+
+<!-- ======================  MESSAGE ALERTS ===================== -->
+{% if msgSuccess %}
+<div class="alert alert-success" role="alert">msgSuccess</div>
+{% enfif %}}
+
+{% if msgFail %}
+<div class="alert alert-danger" role="alert">msgFail</div>
+{% enfif %}}
+<!-- ======================  MESSAGE ALERTS END ================= -->
+
+
+<!-- ======================  MAIN CONTENT ===================== -->
+
+{% if type=='overview' %}
+<!-- ======================  CONTENT OVERVIEW ===================== -->
 <table>
+	<tr>
+		<td>First Name</td>
+		<td><input type="text" value="{{ profile.fname }}" readonly></td>
 
-<form>
-<tr>
-<td>First Name:</td>
-<td><input type='{{t}}' name='fname' value='{{ profile.fname }}' ></td>
-</tr>
-<tr>
-<td>Last Name:</td>
-<td><input type='{{t}}' name='lname' value='{{ profile.lname }}' ></td>
-</tr>
-<tr>
-<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
-</tr>
-</form>
+		<td>Last Name</td>
+		<td><input type="text" value="{{ profile.lname }}" readonly></td>
+	</tr>
 
-<tr>
-<td>Username:</td>
-<td><input type='label' value='{{ profile.username }}' ></td>
-</tr>
+	<tr>
+		<td>Username</td>
+		<td><input type="text" value="{{ profile.username }}" readonly></td>
+	</tr>
 
-<form>
-<tr>
-<td>Address:</td>
-<td><input type='{{t}}' name='address' value='{{ profile.address }}' ></td>
-<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
-</tr>
-</form>
+	<tr>
+		<td>Password</td>
+		<td><input type="text" value="Not sdisplayed due to security reasons" readonly></td>
+	</tr>
 
-<form>
-<tr>
-<td>Mobile No:</td>
-<td><input type='{{t}}' name='mobile' value='{{ profile.mobile }}' ></td>
-<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
-</tr>
-</form>
+	<tr>
+		<td>Pan No</td>
+		<td><input type="text" value="{{ profile.pan_no }}" readonly></td>
+	</tr>
 
-<form>
-<tr>
-<td>E-Mail:</td>
-<td><input type='{{t}}' name='email' value='{{ profile.email }}' ></td>
-<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
-</tr>
-</form>
+	<tr>
+		<td>Address</td>
+		<td><input type="text" value="{{ profile.address }}" readonly></td>
+	</tr>
 
-<form>
-<tr>
-<td>Sequrity Question:</td>
-<td><input type='{{t}}' name='secq' value='{{ profile.secques }}' ></td>
-</tr>
-<tr>
-<td>Sequrity Answer:</td>
-<td><input type='{{t}}' name='seca' value='{{ profile.secans }}' ></td>
-</tr>
-<tr>
-<td><button type='submit' class='btn btn-outline-success' value=' Change ' ></td>
-</tr>
-</form>
+	<tr>
+		<td>Mobile No</td>
+		<td><input type="text" value="{{ profile.mobile }}" readonly></td>
+	</tr>
+
+	<tr>
+		<td>Email</td>
+		<td><input type="text" value="{{ profile.email }}" readonly></td>
+	</tr>
+
+	<tr>
+		<td>Security Question</td>
+		<td><input type="text" value="{{ profile.secques }}" readonly></td>
+	</tr>
+
+	<tr>
+		<td>Security Answer</td>
+		<td><input type="text" value="Not displayed due to security reasons" readonly></td>
+	</tr>
+
+	<tr>
+		<td>Role</td>
+		<td><input type="text" value="{{ profile.role }}" readonly></td>
+	</tr>
 
 </table>
+<!-- ======================  CONTENT OVERVIEW END ================= -->
+{% endif %}
 
+{% if type=='updateName' %}
+<!-- ======================  CONTENT UPDATE NAME ===================== -->
+<form>
+<table>
+	<tr>
+		<td>First Name</td>
+		<td><input type="text" value="{{ profile.fname }}" name="fn"></td>
+	</tr>
+	
+	<tr>
+		<td>Last Name</td>
+		<td><input type="text" value="{{ profile.lname }}" name="ln"></td>
+	</tr>
+	
+	<tr>
+		<td></td>
+		<td><input type="submit" value="Change Name"></td>
+	</tr>
+	
+</table>
+</form>
+<!-- ======================  CONTENT UPDATE NAME END ================= -->
+{% endif %}
+
+{% if type=='updateAddress' %}
+<!-- ======================  CONTENT UPDATE ADDRESS ===================== -->
+<!-- ======================  CONTENT UPDATE ADDRESS END ================= -->
+{% endif %}
+
+{% if type=='updateMobile' %}
+<!-- ======================  CONTENT UPDATE MOBILE ===================== -->
+<!-- ======================  CONTENT UPDATE MOBILE END ================= -->
+{% endif %}
+
+{% if type=='updateEmail' %}
+<!-- ======================  CONTENT UPDATE EMAIL ===================== -->
+<!-- ======================  CONTENT UPDATE EMAIL END ================= -->
+{% endif %}
+
+{% if type=='updatePassword' %}
+<!-- ======================  CONTENT UPDATE PASSWORD ===================== -->
+<!-- ======================  CONTENT UPDATE PASSWORD END ================= -->
+{% endif %}
+
+{% if type=='updateSecQA' %}
+<!-- ======================  CONTENT UPDATE SECURITY QUESTION ANSWER ===================== -->
+<!-- ======================  CONTENT UPDATE SECURITY QUESTION ANSWER END ================= -->
+{% endif %}
+<!-- ======================  MAIN CONTENT END ================= -->
+
+<!-- ======================  PROFILE CONTENT END ================= -->
 </div>
 </div>
 </center>
