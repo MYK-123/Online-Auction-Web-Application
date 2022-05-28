@@ -177,6 +177,9 @@ def update_email(user_id, email):
 	sql = f"UPDATE user SET email = '{email}' WHERE id = '{user_id}';"
 	execute(sql)
 
+def update_name(user_id, fname, lname):
+	sql = f"UPDATE user SET fname = '{fname}', lname = '{lname}' WHERE id = '{user_id}' ;"
+	execute(sql)
 
 def update_secqa(user_id, secq, seca):
 	sql = f"UPDATE user SET secques = '{secq}', secans = '{seca}' WHERE id = '{user_id}';"
