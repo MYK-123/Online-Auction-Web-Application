@@ -29,6 +29,7 @@ import src.internals as internals
 import src.messages as messages
 import src.participate as participate
 import src.payments as payments
+import src.profile as profile
 
 
 
@@ -59,6 +60,8 @@ def create_app(test_config=None):
 	app.register_blueprint(messages.bp)
 	app.register_blueprint(participate.bp)
 	app.register_blueprint(payments.bp)
+	app.register_blueprint(profile.bp)
+
 	
 	@app.before_request
 	def before_each_request():
