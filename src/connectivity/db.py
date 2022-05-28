@@ -342,4 +342,12 @@ def setMsgSent(bid_id):
 	execute(sql)
 
 
+def get_seller_by_auction_id(auction_id):
+	sql = f"SELECT seller_id FROM auction_list WHERE id = '{auction_id}' ;"
+	return get_db().execute(sql).fetchone()
+
+def get_auctions_by_seller_id(seller_id):
+	sql = f"SELECT id FROM auction_list WHERE seller_id = '{seller_id}' ;"
+	return get_db().execute(sql).fetchall()
+
 
