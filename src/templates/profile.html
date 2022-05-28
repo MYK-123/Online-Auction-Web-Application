@@ -24,57 +24,57 @@
 <ul class="nav nav-tabs">
 	<li class="nav-item">
 		{% if type=='overview' %}
-		<a class="nav-link active" href="/profie?type=overview">Overview</a>
+		<a class="nav-link active" href="/profile/">Overview</a>
 		{% else %}
-		<a class="nav-link active" href="/profie?type=overview">Overview</a>
+		<a class="nav-link active" href="/profile/">Overview</a>
 		{% endif %}
 	</li>
 	
 	<li class="nav-item">
 		{% if type=='updateName' %}
-		<a class="nav-link active" href="/profie?type=updateName">Update Name</a>
+		<a class="nav-link active" href="/profile/updateName/">Update Name</a>
 		{% else %}
-		<a class="nav-link" href="/profie?type=updateName">Update Name</a>
+		<a class="nav-link" href="/profile/updateName/">Update Name</a>
 		{% endif %}
 	</li>
 	
 	<li class="nav-item">
 		{% if type=='updateAddress' %}
-		<a class="nav-link active" href="/profie?type=updateAddress">Update Address</a>
+		<a class="nav-link active" href="/profile/updateAddress/">Update Address</a>
 		{% else %}
-		<a class="nav-link" href="/profie?type=updateAddress">Update Address</a>
+		<a class="nav-link" href="/profile/updateAddress/">Update Address</a>
 		{% endif %}
 	</li>
 	
 	<li class="nav-item">
 		{% if type=='updateMobile' %}
-		<a class="nav-link active" href="/profie?type=updateMobile">Update Mobile No</a>
+		<a class="nav-link active" href="/profile/updateMobile/">Update Mobile No</a>
 		{% else %}
-		<a class="nav-link" href="/profie?type=updateMobile">Update Mobile No</a>
+		<a class="nav-link" href="/profile/updateMobile/">Update Mobile No</a>
 		{% endif %}
 	</li>
 	
 	<li class="nav-item">
 		{% if type=='updateEmail' %}
-		<a class="nav-link active" href="/profie?type=updateEmail">Update Email</a>
+		<a class="nav-link active" href="/profile/updateEmail/">Update Email</a>
 		{% else %}
-		<a class="nav-link" href="/profie?type=updateEmail">Update Email</a>
+		<a class="nav-link" href="/profile/updateEmail/">Update Email</a>
 		{% endif %}
 	</li>
 	
 	<li class="nav-item">
 		{% if type=='updatePassword' %}
-		<a class="nav-link active" href="/profie?type=updatePassword">Update Password</a>
+		<a class="nav-link active" href="/profile/updatePassword/">Update Password</a>
 		{% else %}
-		<a class="nav-link" href="/profie?type=updatePassword">Update Password</a>
+		<a class="nav-link" href="/profile/updatePassword/">Update Password</a>
 		{% endif %}
 	</li>
 	
 	<li class="nav-item">
 		{% if type=='updateSecQA' %}
-		<a class="nav-link active" href="/profie?type=updateSecQA">Update Security Question Answer</a>
+		<a class="nav-link active" href="/profile/updateSecQA/">Update Security Question Answer</a>
 		{% else %}
-		<a class="nav-link" href="/profie?type=updateSecQA">Update Security Question Answer</a>
+		<a class="nav-link" href="/profile/updateSecQA/">Update Security Question Answer</a>
 		{% endif %}
 	</li>
 </ul>
@@ -156,7 +156,7 @@
 
 {% if type=='updateName' %}
 <!-- ======================  CONTENT UPDATE NAME ===================== -->
-<form>
+<form method='POST' action='/profile/'>
 <table>
 	<tr>
 		<td>First Name</td>
@@ -180,26 +180,133 @@
 
 {% if type=='updateAddress' %}
 <!-- ======================  CONTENT UPDATE ADDRESS ===================== -->
+<form method='POST' action='/profile/'>
+
+<table>
+
+	<tr>
+		<td>Address</td>
+		<td><input type="text" value="{{ profile.address }}" name='address'></td>
+	</tr>
+
+	<tr>
+		<td></td>
+		<td><input type="submit" value="Change Address" ></td>
+	</tr>
+
+</table>
+
+</form>
 <!-- ======================  CONTENT UPDATE ADDRESS END ================= -->
 {% endif %}
 
 {% if type=='updateMobile' %}
 <!-- ======================  CONTENT UPDATE MOBILE ===================== -->
+
+<form method='POST' action='/profile/'>
+
+<table>
+
+	<tr>
+		<td>Mobile No</td>
+		<td><input type="text" value="{{ profile.mobile }}" name='mobile'></td>
+	</tr>
+
+	<tr>
+		<td></td>
+		<td><input type="submit" value="Update Mobile" ></td>
+	</tr>
+
+</table>
+
+</form>
+
+
 <!-- ======================  CONTENT UPDATE MOBILE END ================= -->
 {% endif %}
 
 {% if type=='updateEmail' %}
 <!-- ======================  CONTENT UPDATE EMAIL ===================== -->
+
+<form method='POST' action='/profile/'>
+
+<table>
+	<tr>
+		<td>Email</td>
+		<td><input type="text" value="{{ profile.email }}" name='email'></td>
+	</tr>
+
+	<tr>
+		<td></td>
+		<td><input type="submit" value="Update Email" ></td>
+	</tr>
+
+</table>
+
+</form>
+
+
 <!-- ======================  CONTENT UPDATE EMAIL END ================= -->
 {% endif %}
 
 {% if type=='updatePassword' %}
 <!-- ======================  CONTENT UPDATE PASSWORD ===================== -->
+<form method='POST' action='/profile/'>
+
+<table method='POST'>
+	<tr>
+		<td>Current Password</td>
+		<td><input type="password" name='oldpass'></td>
+	</tr>
+
+
+	<tr>
+		<td>New Password</td>
+		<td><input type="password" name='pass'></td>
+	</tr>
+
+
+	<tr>
+		<td>Confirm Password</td>
+		<td><input type="password" name='conf'></td>
+	</tr>
+
+	<tr>
+		<td></td>
+		<td><input type="submit" value="Change Password" ></td>
+	</tr>
+
+</table>
+
+</form>
+
 <!-- ======================  CONTENT UPDATE PASSWORD END ================= -->
 {% endif %}
 
 {% if type=='updateSecQA' %}
 <!-- ======================  CONTENT UPDATE SECURITY QUESTION ANSWER ===================== -->
+<form method='POST' action='/profile/'>
+
+<table>
+	<tr>
+		<td>Security Question</td>
+		<td><input type="text" value="{{ profile.secques }}" name='secq'></td>
+	</tr>
+
+	<tr>
+		<td>Security Answer</td>
+		<td><input type="password" value="Not displayed due to security reasons" name='seca'></td>
+	</tr>
+
+	<tr>
+		<td></td>
+		<td><input type="submit" value="Change  Security Answer" ></td>
+	</tr>
+
+</table>
+
+</form>
+
 <!-- ======================  CONTENT UPDATE SECURITY QUESTION ANSWER END ================= -->
 {% endif %}
 <!-- ======================  MAIN CONTENT END ================= -->
