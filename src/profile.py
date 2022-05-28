@@ -11,6 +11,10 @@ from src.connectivity import get_user_by_id
 from src.connectivity import check_password
 from src.connectivity import update_password
 
+from src.connectivity.db import update_email
+from src.connectivity.db import update_mobile
+from src.connectivity.db import update_address
+
 
 
 bp = Blueprint ('profile', __name__)
@@ -42,14 +46,17 @@ def profile(page):
 def updateName():
 	pass
 
-def updateAddress():
-	pass
+def updateAddress(uid, address):
+	update_address(uid, address)
+	return 'Address Updated Successfuy', ''
 
-def updateMobile():
-	pass
+def updateMobile(uid, mobile):
+	update_mobile(uid, mobile)
+	return 'Mobile Updated Sucessfully', ''
 
 def updateEmail():
-	pass
+	update_email(uid, email)
+	return 'Email Updated Successfully', ''
 
 def updateSecQA():
 	pass
