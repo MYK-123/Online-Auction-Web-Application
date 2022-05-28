@@ -14,6 +14,8 @@ from src.connectivity import update_password
 from src.connectivity.db import update_email
 from src.connectivity.db import update_mobile
 from src.connectivity.db import update_address
+from src.cinnectivity.db import update_secqa
+from src.connectivity.db import update_name
 
 
 
@@ -43,8 +45,9 @@ def profile(page):
 	
 	return render_template('profile.html', name=g.user.get_username(), role=g.user.get_role(), type=page, profile=user, msgSuccess=msgS, msgFail=msgF)
 
-def updateName():
-	pass
+def updateName(uid, fn, ln):
+	update_name(uid, fn, ln)
+	return 'Name Updated Successfully', ''
 
 def updateAddress(uid, address):
 	update_address(uid, address)
@@ -54,12 +57,13 @@ def updateMobile(uid, mobile):
 	update_mobile(uid, mobile)
 	return 'Mobile Updated Sucessfully', ''
 
-def updateEmail():
+def updateEmail(uid, email):
 	update_email(uid, email)
 	return 'Email Updated Successfully', ''
 
-def updateSecQA():
-	pass
+def updateSecQA(uid, q, a):
+	update_secqa(uid, q, a)
+	return 'Security Question/Answer Updated Successfully', ''
 
 def updatePassword(oldpass, pass1, pass2):
 	if check_password(g.user.get_username(), oldpass):
