@@ -15,6 +15,10 @@ from src.connectivity import getBidInfo
 from src.connectivity import get_trans_list
 from src.connectivity import get_trans_history
 
+from src.connectivity.db import get_payout_list
+from src.connectivity.db import create_payout
+from src.connectivity.db import update_payout
+
 from src.auth import login_required
 
 from src.constants import MERCHANT_ID
@@ -31,6 +35,21 @@ from src.payment.paytm_checksum import verify_checksum
 bp = Blueprint('payments', __name__)
 
 logging.basicConfig(level=logging.DEBUG)
+
+def payout_pay(auction_id, tid):
+	seller_id = get_seller_by_auction_id(auction_id)
+	sendPayoutMsg(g.user.get_uid(), seller_id, 'Payout', "Payout done successfully. (Not really for more information see project report.)")
+	order_id = generate_order_id()
+	create_payout(tid, order_id)
+	update_payout(tid, 'TEMP_TRANS_ID', 'SUCCESS')
+	return redirect(url_for('.payout'))
+
+@bp.route('/payouts/', methods=['GET', 'POST'])
+@login_required
+def payout():
+	auction_id = get_auctions_by_seller_id(g.user.get_uid())
+	l = [ i for i in get_payout_list() if i['auction_id'] in auction_id ]
+	return render_template('payment_list.html', heading='Payouts', items=l, name=g.user.get_username(), role=g.user.get_role(), rowname='t2')
 
 
 @bp.route("/transaction/history/")
