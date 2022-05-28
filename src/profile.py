@@ -7,7 +7,7 @@ from flask import request
 
 from src.auth import login_required
 
-from src.connectivity import get_user_details_by_id
+from src.connectivity import get_user_by_id
 
 
 bp = Blueprint ('profile', __name__)
@@ -16,7 +16,7 @@ bp = Blueprint ('profile', __name__)
 @bp.route('/profile/<str:page>/', methods=['GET', 'POST'])
 @login_required
 def profile(page):
-	user = get_user_details_by_id(g.user.get_uid())
+	user = get_user_by_id(g.user.get_uid())
 	data = request.form.to_dict()
 	
 	if page == 'updateName':
