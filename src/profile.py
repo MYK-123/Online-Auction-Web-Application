@@ -8,6 +8,9 @@ from flask import request
 from src.auth import login_required
 
 from src.connectivity import get_user_by_id
+from src.connectivity import check_password
+from src.connectivity import update_password
+
 
 
 bp = Blueprint ('profile', __name__)
@@ -30,7 +33,7 @@ def profile(page):
 	elif page == 'updateSecQA':
 		msgS, msgF = updateSecQA(g.user.get_uid(), data['secq'], data['seca'])
 	elif page == 'updatePassword':
-		msgS, msgF = updatePassword(g.user.get_uid(), data['oldpass'], data['pass'], data['conf'])
+		msgS, msgF = updatePassword(data['oldpass'], data['pass'], data['conf'])
 	else:
 		msgS = msgF = ''
 	
@@ -51,9 +54,12 @@ def updateEmail():
 def updateSecQA():
 	pass
 
-def updatePassword():
-	pass
-
-
+def updatePassword(oldpass, pass1, pass2):
+	if check_password(g.user.get_username(), oldpass):
+		if pass1 == pass2:
+			update_password(g.user.get_username())
+			return 'Password Updated Successfully', ''
+		return '', 'Passwords do not match'
+	return '', 'Enter correct Password'
 
 
