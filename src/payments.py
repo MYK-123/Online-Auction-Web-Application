@@ -8,6 +8,8 @@ from flask import Blueprint
 from flask import g
 from flask import request
 from flask import render_template
+from flask import redirect
+from flask import url_for
 
 from src.connectivity import get_order_id
 from src.connectivity import create_payment
@@ -15,6 +17,7 @@ from src.connectivity import getBidInfo
 from src.connectivity import get_trans_list
 from src.connectivity import get_trans_history
 from src.connectivity import generate_s_order_id
+from src.connectivity import send_message
 
 from src.connectivity.db import get_payout_list
 from src.connectivity.db import create_payout
@@ -39,6 +42,8 @@ bp = Blueprint('payments', __name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
+@bp.route('/payout/<int:auction_id>/<int:id>', methods=['GET', 'POST'])
+@login_required
 def payout_pay(auction_id, tid):
 	seller_id = get_seller_by_auction_id(auction_id)
 	send_message(g.user.get_uid(), seller_id, 'Payout', "Payout done successfully. (Not really for more information see project report.)")
