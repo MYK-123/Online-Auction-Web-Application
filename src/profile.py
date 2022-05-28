@@ -21,10 +21,10 @@ from src.connectivity.db import update_name
 
 bp = Blueprint ('profile', __name__)
 
-@bp.route('/profile/', args=(page='overview'), methods=['GET', 'POST'])
+@bp.route('/profile/', methods=['GET', 'POST'])
 @bp.route('/profile/<str:page>/', methods=['GET', 'POST'])
 @login_required
-def profile(page):
+def profile(page='overview'):
 	user = get_user_by_id(g.user.get_uid())
 	data = request.form.to_dict()
 	
