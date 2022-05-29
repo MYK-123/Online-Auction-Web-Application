@@ -350,3 +350,33 @@ def generate_s_order_id(auction_id):
 	t = n.time()
 	return "PAYOUT_A_" + str(auction_id) + "_" + str(n.year) + "_" + str(n.month) + "_" + str(n.day) + "_" + str(t.hour) + "_" + str(t.minute) + "_" + str(t.second)
 
+def update_email(u, a):
+	db.update_email(u, a)
+
+def update_mobile(u, a):
+	db.update_mobile(u, a)
+
+def update_address(u, a):
+	db.update_address(u, a)
+
+def update_secqa(u, q, a):
+	db.update_secqa(u, q, a)
+
+def update_name(u, f, l):
+	db.update_name(u, f, l)
+
+def update_payouts(tid, t, s):
+	db.update_payouts(tid, t, s)
+
+def create_payout(tid, seller_oreder_id):
+	db.create_payout(tid, seller_oreder_id)
+
+def get_payout_list():
+	return db.get_payout_list()
+
+def get_seller_by_auction_id(auction_id):
+	return db.get_seller_by_auction_id(auction_id)
+
+def get_auctions_by_seller_id(seller_id):
+	return db.get_auctions_by_seller_id(seller_id)
+
