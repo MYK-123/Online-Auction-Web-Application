@@ -13,6 +13,7 @@ from flask import url_for
 
 from src.connectivity import get_order_id
 from src.connectivity import create_payment
+from src.connectivity import update_payments
 from src.connectivity import getBidInfo
 from src.connectivity import get_trans_list
 from src.connectivity import get_trans_history
@@ -145,6 +146,9 @@ def callback():
 	
 	logging.info("Verification response: {verification_response}".format(
 	verification_response=verification_response.json()))
+	
+	if checksum_verification_status and callback_response.get("TXN_STATUS") == 'SUCCESS':
+		update_payments(callback_response.get("ORDERID"), callback_response.get("TRANSID"), 'SUCCESS')
 	
 	return render_template("payment_callback.html", callback_response=callback_response, checksum_verification_status=checksum_verification_status, verification_response=verification_response.json(), name=g.user.get_username(), role=g.user.get_role())
 
