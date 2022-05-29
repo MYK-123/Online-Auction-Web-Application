@@ -18,12 +18,11 @@ from src.connectivity import get_trans_list
 from src.connectivity import get_trans_history
 from src.connectivity import generate_s_order_id
 from src.connectivity import send_message
-
-from src.connectivity.db import get_payout_list
-from src.connectivity.db import create_payout
-from src.connectivity.db import update_payout
-from src.connectivity.db import get_seller_by_auction_id
-from src.connectivity.db import get_auctions_by_seller_id
+from src.connectivity import get_payout_list
+from src.connectivity import create_payout
+from src.connectivity import update_payouts
+from src.connectivity import get_seller_by_auction_id
+from src.connectivity import get_auctions_by_seller_id
 
 from src.auth import login_required
 
@@ -48,7 +47,7 @@ def payout_pay(auction_id, tid):
 	seller_id = get_seller_by_auction_id(auction_id)
 	send_message(g.user.get_uid(), seller_id, 'Payout', "Payout done successfully. (Not really for more information see project report.)")
 	order_id = generate_s_order_id(auction_id)
-	create_payout(tid, order_id)
+	create_payouts(tid, order_id)
 	update_payout(tid, 'TEMP_TRANS_ID', 'SUCCESS')
 	return redirect(url_for('.payout'))
 

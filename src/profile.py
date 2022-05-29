@@ -14,7 +14,7 @@ from src.connectivity import update_password
 from src.connectivity.db import update_email
 from src.connectivity.db import update_mobile
 from src.connectivity.db import update_address
-from src.cinnectivity.db import update_secqa
+from src.connectivity.db import update_secqa
 from src.connectivity.db import update_name
 
 
