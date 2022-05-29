@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="/static/css/style.css" />
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 <script src='/static/js/sell.js'></script>
+<script></script>
 </head>
 <body>
 
@@ -100,11 +101,11 @@
 
 <tr>
 <td colspan=3>
-<button class="btn btn-success" type='submit'>Place Bid</button>
+<button id='bid_btn' class="btn btn-success" type='submit'>Place Bid</button>
 </td>
 
 <td colspan=3>
-<a class="btn btn-danger" type='submit' href="/participate/{{auction.id}}/cancel_bid/"> Cancel Bid</a>
+<a class="btn btn-danger" id='cancel_btn' type='submit' href="/participate/{{auction.id}}/cancel_bid/"> Cancel Bid</a>
 </td>
 
 
