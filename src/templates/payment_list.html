@@ -27,6 +27,9 @@
 
 <td>&nbsp<b>ID</b>&nbsp</td>
 <td>&nbsp<b>ORDER ID</b>&nbsp</td>
+{% if trans %}
+<td>&nbsp<b>TRANSACTIONS ID</b>&nbsp</td>
+{% endif %}
 <td>&nbsp<b>BID ID</b>&nbsp</td>
 <td>&nbsp<b>AUCTION ID</b>&nbsp</td>
 <td>&nbsp<b>Amount</b>&nbsp</td>
@@ -38,21 +41,54 @@
 <tbody>
 	{% if item %}
 	<tr id='{{rowname}}'>
-	
+
 	<td>{{item.id}}</td>
+
+{% if payout %}
+
+	<td>{{item.seller_order_id}}</td>
+{% if trans %}
+	<td>{{item.seller_trans_id}}</td>
+{% endif %}
+
+{% else %}
+
 	<td>{{item.order_id}}</td>
+{% if trans %}
+	<td>{{item.trans_id}}</td>
+{% endif %}
+
+{% endif %}
 	<td>{{item.bid_id}}</td>
 	<td>{{item.auction_id}}</td>
+{% if payout %}
+	<td>{{item.seller_Pay}}</td>
+	<td>{{item.seller_paid}}</td>
+
+	{% if item.seller_paid=='NOT PAID' %}
+	<td>
+	<button class="btn btn-outline-success" type='submit' formmethod='post' formaction='/payout/{{ item.auction_id }}/{{ item.id }}'> Payout </button>
+	</td>
+	{% else %}
+	<td>Already Done</td>
+	{% endif %}
+
+
+{% else %}
 	<td>{{item.amt}}</td>
 	<td>{{item.bidder_paid}}</td>
-	
-	{% if item.bidder_paid=='NOT PAID' %}
+
+{% if item.bidder_paid=='NOT PAID' %}
 	<td>
 	<button class="btn btn-outline-success" type='submit' formmethod='post' formaction='/payments/{{ item.auction_id }}/{{ item.bid_id }}/checkout/'> Proceed To Pay </button>
 	</td>
 	{% else %}
 	<td>Already Done</td>
 	{% endif %}
+
+{% endif %}
+
+
 	
 	</tr>
 	{% endif %}
