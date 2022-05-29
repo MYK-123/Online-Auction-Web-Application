@@ -294,6 +294,12 @@ def get_payout_list():
 	sql = f"SELECT * FROM trans WHERE seller_paid = 'NOT PAID' AND bidder_paid = 'PAID' ;"
 	return dbase.execute(sql).fetchall()
 
+def get_payout_history():
+	dbase = get_db()
+	sql = f"SELECT * FROM trans WHERE seller_paid = 'PAID' ;"
+	return dbase.execute(sql).fetchall()
+
+
 def create_payout(tid, seller_oreder_id):
 	sql = f"UPDATE trans SET seller_order_id = '{seller_order_id}' WHERE id = '{tid}' ;"
 	execute(sql)
