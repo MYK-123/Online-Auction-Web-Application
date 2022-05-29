@@ -41,7 +41,7 @@ def get_files(auction_id):
 			l.append(x)
 	return l
 
-@bp.route('/uploads/<int:user_id>/<int:req_id>/<str:filename>', methods=['GET', 'POST'])
+@bp.route('/uploads/<int:user_id>/<int:req_id>/<string:filename>', methods=['GET', 'POST'])
 def download(user_id, req_id, filename):
 	path = os.path.join(os.path.join(UPLOAD_FOLDER, str(user_id)), str(req_id))
 	return send_from_directory(path, filename)
