@@ -19,6 +19,7 @@ from src.connectivity import get_trans_history
 from src.connectivity import generate_s_order_id
 from src.connectivity import send_message
 from src.connectivity import get_payout_list
+from src.connectivity import get_payout_history
 from src.connectivity import create_payout
 from src.connectivity import update_payouts
 from src.connectivity import get_seller_by_auction_id
@@ -51,6 +52,15 @@ def payout_pay(auction_id, tid):
 	update_payout(tid, 'TEMP_TRANS_ID', 'SUCCESS')
 	return redirect(url_for('.payout'))
 
+
+@bp.route('/payouts/history', methods=['GET', 'POST'])
+@login_required
+def payout_history():
+	auction_id = get_auctions_by_seller_id(g.user.get_uid())
+	l = [ i for i in get_payout_history() if i['auction_id'] in auction_id ]
+	return render_template('payment_list.html', heading='Payouts History', items=l, trans='true', name=g.user.get_username(), role=g.user.get_role(), rowname='t2')
+
+
 @bp.route('/payouts/', methods=['GET', 'POST'])
 @login_required
 def payout():
@@ -62,7 +72,7 @@ def payout():
 @bp.route("/transaction/history/")
 @login_required
 def trans_history():
-	return render_template('payment_list.html',heading='Transaction History' , items=get_trans_history(), name = g.user.get_username(), role=g.user.get_role(), rowname='t2')
+	return render_template('payment_list.html',heading='Transaction History' , items=get_trans_history(), trans='true', name = g.user.get_username(), role=g.user.get_role(), rowname='t2')
 
 
 @bp.route("/payments/checkout/")
