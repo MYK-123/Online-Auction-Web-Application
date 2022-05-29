@@ -352,6 +352,9 @@ def setMsgSent(bid_id):
 def get_trans_history():
 	return db.get_trans_history()
 
+def get_payout_history():
+	return db.get_payout_history()
+
 def generate_s_order_id(auction_id):
 	n = datetime.utcnow()
 	t = n.time()
