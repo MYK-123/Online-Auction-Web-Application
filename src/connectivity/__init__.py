@@ -209,8 +209,11 @@ def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
 
 
 def loopbody1():
+	bid_list = get_bid_list()
+	if bid_list is None:
+		return
 	list_max = Init()
-	for bid in get_bid_list():
+	for bid in bid_list:
 		if bid['auction_id'] in list_max.get_keys():
 			t = list_max.get(bid['auction_id'])
 			m = getMax(bid, t)
@@ -225,8 +228,11 @@ def loopbody1():
 
 
 def loopbody2():
+	trans_list = get_trans_list()
+	if trans_list is None:
+		return
 	time_now = datetime.utcnow()
-	for i in get_trans_list():
+	for i in trans_list:
 		t = i['init_time']
 		t1 = datetime.fromisoformat(str(t))
 		if i['bidder_paid'] == 'NOT PAID':
@@ -239,7 +245,8 @@ def loopbody2():
 def loopbody3():
 	bid_list = get_bid_list()
 	auction_list = get_auctions_list()
-	
+	if auction_list is None or bid_list is None:
+		return
 	for i in auction_list:
 		exist = False
 		for j in bid_list:
