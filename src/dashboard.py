@@ -7,7 +7,7 @@ from jinja2 import Markup
 from flask import render_template
 from flask import make_response
 from flask import request
-from flask import g
+from flask import g, current_app
 from flask import redirect
 from flask import url_for
 
@@ -15,7 +15,6 @@ from flask.blueprints import Blueprint
 
 from werkzeug.utils import secure_filename
 
-from src.constants import UPLOAD_FOLDER
 from src.constants import ALLOWED_EXTENTIONS
 
 from src.auth import login_required
@@ -57,7 +56,7 @@ def is_allowed(filename):
 def save_uploaded_files(file,user_id, req_id):
 	if file and is_allowed(file.filename):
 		filename = secure_filename(file.filename)
-		path = os.path.join(os.path.join(UPLOAD_FOLDER, str(user_id)), str(req_id))
+		path = os.path.join(current_app.config['UPLOAD_FOLDER'], str(user_id), str(req_id))
 		os.makedirs(path, exist_ok=True)
 		file.save(os.path.join(path, filename))
 

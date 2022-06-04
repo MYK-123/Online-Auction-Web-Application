@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 import os
 
-PROJECT_ROOT = '.'
-UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'uploads/')
+PROJECT_ROOT = os.path.dirname('.')
+UPLOAD_FOLDER = 'uploads'
 CONNECTIVITY_FOLDER = os.path.join(PROJECT_ROOT, 'connectivity')
 SCHEMA_FILE = 'schema.sql'
 DATABASE_FILE = 'database.db'
 DATABASE_SCHEMA = os.path.join(CONNECTIVITY_FOLDER, SCHEMA_FILE)
-DATABASE = os.path.join(CONNECTIVITY_FOLDER, DATABASE_FILE)
+#DATABASE = os.path.join(CONNECTIVITY_FOLDER, DATABASE_FILE)
 
 DATABASE_SCHEMA_FILE = DATABASE_SCHEMA
 

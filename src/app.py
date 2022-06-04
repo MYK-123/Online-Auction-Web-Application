@@ -40,7 +40,7 @@ def create_app(test_config=None):
 		SECRET_KEY = 'dbff3e78b2f405544565bea285c4c33ff656c7334ca75c4ce7f729e147ee4df8',
 		DATABASE = os.path.join(app.instance_path, DATABASE_FILE)
 	)
-	app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+	app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, UPLOAD_FOLDER)
 	app.config['DATABASE_SCHEMA'] = DATABASE_SCHEMA_FILE
 	
 	if test_config is None:
@@ -62,7 +62,7 @@ def create_app(test_config=None):
 	app.register_blueprint(participate.bp)
 	app.register_blueprint(payments.bp)
 	app.register_blueprint(profile.bp)
-
+	
 	
 	@app.before_request
 	def before_each_request():

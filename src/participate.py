@@ -2,17 +2,15 @@
 
 import os
 
-from flask import g
+from flask import g, current_app
 from flask import Blueprint
 from flask import url_for
 from flask import request
 from flask import redirect
 from flask import render_template
-from flask import send_from_directory
+from flask import send_from_directory, send_file
 
 from src.auth import login_required
-
-from src.constants import UPLOAD_FOLDER
 
 from src.connectivity import make_bid
 from src.connectivity import cancel_bida
@@ -31,20 +29,21 @@ def get_files(auction_id):
 	details = get_auction_details(auction_id)
 	req_id = details['request_id']
 	user_id = details['seller_id']
-	path = os.path.join(os.path.join(UPLOAD_FOLDER, str(user_id)), str(req_id))
+	path = os.path.join(current_app.config['UPLOAD_FOLDER'], str(user_id), str(req_id))
 	if os.path.exists(path):
 		for i, f in enumerate(os.listdir(path)):
 			x = []
 			x.append(i)
-			path = os.path.join(os.path.join('/uploads/', str(user_id)), str(req_id))
+			path = os.path.join('/uploads/', str(user_id), str(req_id))
 			x.append(os.path.join(path, f))
 			l.append(x)
 	return l
 
 @bp.route('/uploads/<int:user_id>/<int:req_id>/<string:filename>', methods=['GET', 'POST'])
 def download(user_id, req_id, filename):
-	path = os.path.join(os.path.join(UPLOAD_FOLDER, str(user_id)), str(req_id))
+	path = os.path.join(current_app.config['UPLOAD_FOLDER'], str(user_id), str(req_id))
 	return send_from_directory(path, filename)
+
 
 @bp.route('/participate/', methods=['GET', 'POST'])
 @login_required
