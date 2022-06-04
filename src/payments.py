@@ -147,8 +147,8 @@ def callback():
 	logging.info("Verification response: {verification_response}".format(
 	verification_response=verification_response.json()))
 	
-	if checksum_verification_status and callback_response.get("STATUS") == 'TXN_SUCCESS':
-		update_payments(callback_response.get("ORDERID"), callback_response.get("TRANSID"), 'SUCCESS')
+	if checksum_verification_status == True and callback_response.get("STATUS") == "TXN_SUCCESS":
+		update_payments(callback_response.get("ORDERID"), callback_response.get("TXNID"), 'SUCCESS')
 	
 	return render_template("payment_callback.html", callback_response=callback_response, checksum_verification_status=checksum_verification_status, verification_response=verification_response.json(), name=g.user.get_username(), role=g.user.get_role())
 
