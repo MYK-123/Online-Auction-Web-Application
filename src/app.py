@@ -4,6 +4,7 @@ import os
 
 from src.bot import start_bot
 from src.connectivity import getuser
+from src.connectivity import get_auctions_list
 
 from src.constants import UPLOAD_FOLDER
 from src.constants import DATABASE_FILE
@@ -74,7 +75,7 @@ def create_app(test_config=None):
 	def home():
 		if g.user:
 			return redirect(url_for('dashboard.dashboard'))
-		return Markup.unescape(render_template('index.html', items=dashboard.get_auction_table(), rowname='t2'))
+		return Markup.unescape(render_template('index.html', items=get_auctions_list(), rowname='t2'))
 	
 	from src.connectivity import db
 	db.init_app(app)
