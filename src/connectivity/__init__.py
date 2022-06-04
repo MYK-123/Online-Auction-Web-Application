@@ -209,7 +209,6 @@ def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
 
 
 def loopbody1():
-	print('LOOP 1')
 	bid_list = get_bid_list()
 	if bid_list is None:
 		return
@@ -229,7 +228,6 @@ def loopbody1():
 
 
 def loopbody2():
-	print('LOOP 2')
 	trans_list = get_trans_list()
 	if trans_list is None:
 		return
@@ -245,7 +243,6 @@ def loopbody2():
 
 
 def loopbody3():
-	print('LOOP 3')
 	bid_list = get_bid_list()
 	auction_list = get_auctions_list()
 	if auction_list is None or bid_list is None:
