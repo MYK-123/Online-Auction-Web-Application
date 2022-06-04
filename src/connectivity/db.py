@@ -285,7 +285,7 @@ def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
 	return execute(sql)
 
 def update_payments(order_id, trans_id, payment_status):
-	if payment_status == 'SUCESS':
+	if payment_status == 'SUCCESS':
 		sql = f"UPDATE trans SET trans_id = '{trans_id}', bidder_paid = 'PAID' WHERE order_id = '{order_id}' ;"
 		execute(sql)
 

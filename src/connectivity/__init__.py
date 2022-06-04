@@ -221,6 +221,7 @@ def loopbody1():
 		else:
 			list_max.insert(bid['auction_id'], bid)
 	for i in list_max.get_list():
+		print(i['msg_sent'])
 		if i['msg_sent'] == '' or i['msg_sent'] == None:
 			order_id = create_trans_for_bid_id(i)
 			sendBotMsg(i['participant_id'], i['auction_id'], order_id)
