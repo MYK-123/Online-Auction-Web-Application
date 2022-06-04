@@ -11,12 +11,19 @@ from multiprocessing import Process, Value
 class Bot(Process):
 	is_running = False
 	def run(self):
-		while self.is_running:
-			with self.cxt:
-				loopbody1()
-				loopbody2()
-				loopbody3()
-				time.sleep(3)
+		try:
+			time.sleep(5)
+			print('STARTING BOT SERVICE')
+			while self.is_running:
+				with self.cxt:
+					loopbody1()
+					loopbody2()
+					loopbody3()
+					time.sleep(3)
+		except KeyboardInterrupt:
+			print('KILLING BOT SERVICE')
+			self.close()
+
 	
 	def context(self, app_cxt):
 		self.cxt = app_cxt
@@ -33,7 +40,6 @@ def start_bot(app_cxt, daemon=True):
 	bot = Bot()
 	bot.context(app_cxt)
 	bot.daemon = daemon
-	time.sleep(5)
 	bot.start()
 
 
