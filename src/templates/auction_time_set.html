@@ -20,7 +20,6 @@
 <h1> Set Aucction Time and Duration </h1>
 
 {% if items %}
-<form>
 <table class="table">
 
 <thead id='t1'>
@@ -41,8 +40,10 @@
 <td>&nbsp<b>Confirm</b>&nbsp</td>
 </thead>
 
-{% for item in items %}
+
 <tbody>
+{% for item in items %}
+<form>
 	{% if item %}
 	<tr id='{{rowname}}'>
 	<td>{{item.id}}</td>
@@ -65,7 +66,6 @@
 	{% else %}
 	Start Time: <input type='label' id='stime' name='stime' value='{{item.start_datetime}}'>
 	End Time: <input type='label' id='etime' name='etime' value='{{item.end_datetime}}'>
-	<input type='hidden' id='tz' name='tz'>
 	{% endif %}
 	</td>
 
@@ -77,14 +77,15 @@
 	{% else %}
 	<td>Already Done</td>
 	{% endif %}
-	
 	</tr>
+
 	{% endif %}
-</tbody>
+</form>
 {% endfor %}
+</tbody>
+
 
 </table>
-</form>
 {% endif %}
 
 

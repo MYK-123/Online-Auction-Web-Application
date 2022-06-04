@@ -209,6 +209,7 @@ def create_payment(order_id, bid_id, auction_id, qty, ppi, amt, fPay):
 
 
 def loopbody1():
+	print('LOOP 1')
 	bid_list = get_bid_list()
 	if bid_list is None:
 		return
@@ -221,7 +222,6 @@ def loopbody1():
 		else:
 			list_max.insert(bid['auction_id'], bid)
 	for i in list_max.get_list():
-		print(i['msg_sent'])
 		if i['msg_sent'] == '' or i['msg_sent'] == None:
 			order_id = create_trans_for_bid_id(i)
 			sendBotMsg(i['participant_id'], i['auction_id'], order_id)
@@ -229,6 +229,7 @@ def loopbody1():
 
 
 def loopbody2():
+	print('LOOP 2')
 	trans_list = get_trans_list()
 	if trans_list is None:
 		return
@@ -244,6 +245,7 @@ def loopbody2():
 
 
 def loopbody3():
+	print('LOOP 3')
 	bid_list = get_bid_list()
 	auction_list = get_auctions_list()
 	if auction_list is None or bid_list is None:
@@ -344,7 +346,7 @@ def getMax(b1, b2):
 
 def is_auction_finished(auction):
 	if auction['status'] == 0:
-		return datetime.utcnow() > datetime.fromisoformat(str(auction['end_datetime']))
+		return datetime.utcnow() > datetime.fromisoformat(str(auction['end_datetime'])) if auction['end_datetime'] is not None else False
 	return False
 
 def setMsgSent(bid_id):
